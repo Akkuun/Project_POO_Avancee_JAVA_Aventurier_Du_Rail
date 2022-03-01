@@ -323,30 +323,29 @@ public class Jeu implements Runnable {
     }
 
 
-        public ArrayList<CouleurWagon> initialiser_nouvelle_pioche () {
-            ArrayList<CouleurWagon> pile = new ArrayList<>();
-            ArrayList<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
-            for (CouleurWagon couleur : couleurs) {
-                for (int i = 0; i < 12; i++) {
-                    pile.add(couleur);
-                }
+    public ArrayList<CouleurWagon> initialiser_nouvelle_pioche() {
+        ArrayList<CouleurWagon> pile = new ArrayList<>();
+        ArrayList<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
+        for (CouleurWagon couleur : couleurs) {
+            for (int i = 0; i < 12; i++) {
+                pile.add(couleur);
             }
-            for (int i = 0; i < 14; i++) {
-                pile.add(CouleurWagon.LOCOMOTIVE);
-            }
-            Collections.shuffle(pile);
-            return pile;
         }
-
-        public ArrayList<CouleurWagon> tirerCartes ( int nombre_de_cartes){
-            ArrayList<CouleurWagon> cartes = new ArrayList<>();
-            for (int i = 0; i < nombre_de_cartes; i++) {
-                cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
-            }
-            return cartes;
-
+        for (int i = 0; i < 14; i++) {
+            pile.add(CouleurWagon.LOCOMOTIVE);
         }
+        Collections.shuffle(pile);
+        return pile;
+    }
 
+    public ArrayList<CouleurWagon> tirerCartes(int nombre_de_cartes) {
+        ArrayList<CouleurWagon> cartes = new ArrayList<>();
+        for (int i = 0; i < nombre_de_cartes; i++) {
+            cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
+        }
+        return cartes;
+
+    }
 
 
 }

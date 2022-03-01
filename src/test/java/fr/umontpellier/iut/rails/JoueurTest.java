@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.rails;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class JoueurTest {
         joueur4.getCartesWagon().clear();
     }
 
-
+    @Disabled
     @Test
     void testChoisirDestinations() {
         jeu.setInput("Athina - Angora (5)", "Frankfurt - Kobenhavn (5)");
@@ -53,6 +54,7 @@ public class JoueurTest {
         assertTrue(joueur1.getDestinations().contains(d4));
     }
 
+    @Disabled
     @Test
     void testJouerTourPrendreCartesWagon() {
         jeu.setInput("GRIS", "ROUGE");

@@ -69,14 +69,11 @@ public class Jeu implements Runnable {
 
         // création des cartes
 
-        pileCartesWagon = new ArrayList<>();
-        cartesWagonVisibles = new ArrayList<CouleurWagon>(Collections.singleton(CouleurWagon.BLANC));
-
         pileCartesWagon = initialiser_nouvelle_pioche();
         cartesWagonVisibles = tirerCartes(5);
 
         defausseCartesWagon = new ArrayList<>();
-        pileDestinations = new ArrayList<>();
+        pileDestinations = Destination.makeDestinationsEurope();
 
         // création des joueurs
         ArrayList<Joueur.Couleur> couleurs = new ArrayList<>(Arrays.asList(Joueur.Couleur.values()));
@@ -198,7 +195,23 @@ public class Jeu implements Runnable {
      * @return la carte qui a été piochée (ou null si aucune carte disponible)
      */
     public CouleurWagon piocherCarteWagon() {
-        throw new RuntimeException("Méthode non implémentée !");
+        if (pileCartesWagon.isEmpty()){
+            if(!defausseCartesWagon.isEmpty()) {
+                melangerDefausse();
+            } else {
+                return null;
+            }
+        }
+        return pileCartesWagon.remove(pileCartesWagon.size() - 1);
+
+    }
+
+    public void melangerDefausse(){
+        int taille_defausse = defausseCartesWagon.size();
+        for (int i=0; i<taille_defausse; i++){
+            pileCartesWagon.add(defausseCartesWagon.remove(i));
+        }
+        pileCartesWagon = melangerPileCarteCouleurWagon(pileCartesWagon);
     }
 
     /**

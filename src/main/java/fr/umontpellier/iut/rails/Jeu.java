@@ -197,7 +197,7 @@ public class Jeu implements Runnable {
     public CouleurWagon piocherCarteWagon() {
         if (pileCartesWagon.isEmpty()){
             if(!defausseCartesWagon.isEmpty()) {
-                melangerDefausse();
+                remelangerDefausse();
             } else {
                 return null;
             }
@@ -206,7 +206,7 @@ public class Jeu implements Runnable {
 
     }
 
-    public void melangerDefausse(){
+    public void remelangerDefausse(){
         int taille_defausse = defausseCartesWagon.size();
         for (int i=0; i<taille_defausse; i++){
             pileCartesWagon.add(defausseCartesWagon.remove(i));
@@ -356,7 +356,7 @@ public class Jeu implements Runnable {
         public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
             ArrayList<CouleurWagon> cartes = new ArrayList<>();
             for (int i = 0; i < nombre_de_cartes; i++) {
-                cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
+                piocherCarteWagon();
             }
             return cartes;
 

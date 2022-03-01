@@ -211,7 +211,7 @@ public class Jeu implements Runnable {
         for (int i=0; i<taille_defausse; i++){
             pileCartesWagon.add(defausseCartesWagon.remove(i));
         }
-        pileCartesWagon = melangerPileCarteCouleurWagon(pileCartesWagon);
+        pileCartesWagon = melangerList(pileCartesWagon);
     }
 
     /**

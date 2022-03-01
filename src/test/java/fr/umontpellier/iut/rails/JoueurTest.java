@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JoueurTest {
     private IOJeu jeu;
@@ -19,7 +18,7 @@ public class JoueurTest {
 
     @BeforeEach
     void init() {
-        jeu = new IOJeu(new String[] { "Guybrush", "Largo", "LeChuck", "Elaine" });
+        jeu = new IOJeu(new String[]{"Guybrush", "Largo", "LeChuck", "Elaine"});
         List<Joueur> joueurs = jeu.getJoueurs();
         joueur1 = joueurs.get(0);
         joueur2 = joueurs.get(1);
@@ -79,9 +78,9 @@ public class JoueurTest {
         // puis le jeu devrait remettre une carte visible BLEU
 
         assertTrue(TestUtils.contientExactement(
-            joueur1.getCartesWagon(),
-            CouleurWagon.ROUGE,
-            CouleurWagon.LOCOMOTIVE));
+                joueur1.getCartesWagon(),
+                CouleurWagon.ROUGE,
+                CouleurWagon.LOCOMOTIVE));
         assertTrue(TestUtils.contientExactement(
                 cartesWagonVisibles,
                 CouleurWagon.BLEU,
@@ -90,5 +89,23 @@ public class JoueurTest {
                 CouleurWagon.ROUGE,
                 CouleurWagon.ROUGE));
         assertEquals(nbCartesWagon - 2, pileCartesWagon.size());
+    }
+
+    @Test
+    void test_Fonction_CarteWagon_Melanger() {
+
+        List<CouleurWagon> cartesWagonVisibles = jeu.getCartesWagonVisibles();
+        List<CouleurWagon> carteMelagne;
+        cartesWagonVisibles.add(CouleurWagon.BLEU);
+        cartesWagonVisibles.add(CouleurWagon.ROUGE);
+        cartesWagonVisibles.add(CouleurWagon.BLEU);
+        cartesWagonVisibles.add(CouleurWagon.BLANC);
+        cartesWagonVisibles.add(CouleurWagon.JAUNE);
+
+        System.out.println(cartesWagonVisibles);
+        carteMelagne = jeu.melangerPileCarteCouleurWagon(cartesWagonVisibles);
+        System.out.println(carteMelagne);
+        assertFalse(carteMelagne == cartesWagonVisibles);
+
     }
 }

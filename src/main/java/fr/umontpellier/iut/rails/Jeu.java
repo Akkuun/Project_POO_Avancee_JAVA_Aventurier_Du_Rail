@@ -56,7 +56,7 @@ public class Jeu implements Runnable {
     public Jeu(String[] nomJoueurs) {
         /*
          * ATTENTION : Cette méthode est à réécrire.
-         * 
+         *
          * Le code indiqué ici est un squelette minimum pour que le jeu se lance et que
          * l'interface graphique fonctionne.
          * Vous devez modifier ce code pour que les différents éléments du jeu soient
@@ -69,7 +69,7 @@ public class Jeu implements Runnable {
 
         // création des cartes
         pileCartesWagon = new ArrayList<>();
-        cartesWagonVisibles = new ArrayList<>();
+        cartesWagonVisibles = new ArrayList<CouleurWagon>(Collections.singleton(CouleurWagon.BLANC));
         defausseCartesWagon = new ArrayList<>();
         pileDestinations = new ArrayList<>();
 
@@ -115,7 +115,7 @@ public class Jeu implements Runnable {
     public void run() {
         /*
          * ATTENTION : Cette méthode est à réécrire.
-         * 
+         *
          * Cette méthode doit :
          * - faire choisir à chaque joueur les destinations initiales qu'il souhaite
          * garder : on pioche 3 destinations "courtes" et 1 destination "longue", puis
@@ -133,7 +133,7 @@ public class Jeu implements Runnable {
          * interagir avec l'utilisateur, il n'a rien à voir avec le code de la partie et
          * doit donc être entièrement réécrit.
          */
-        
+
         // Exemple d'utilisation
         while (true) {
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
@@ -184,6 +184,7 @@ public class Jeu implements Runnable {
         throw new RuntimeException("Méthode non implémentée !");
     }
 
+
     /**
      * Pioche une carte de la pile de pioche
      * Si la pile est vide, les cartes de la défausse sont replacées dans la pioche
@@ -206,9 +207,9 @@ public class Jeu implements Runnable {
 
     /**
      * Pioche et renvoie la destination du dessus de la pile de destinations.
-     * 
+     *
      * @return la destination qui a été piochée (ou `null` si aucune destination
-     *         disponible)
+     * disponible)
      */
     public Destination piocherDestination() {
         throw new RuntimeException("Méthode non implémentée !");
@@ -247,7 +248,7 @@ public class Jeu implements Runnable {
      * l'entrée clavier de l'utilisateur (par exemple dans {@code Player.choisir})
      *
      * @return une chaîne de caractères correspondant à l'entrée suivante dans la
-     *         file
+     * file
      */
     public String lireLigne() {
         try {
@@ -298,4 +299,22 @@ public class Jeu implements Runnable {
                 new AbstractMap.SimpleEntry<String, Object>("log", log));
         GameServer.setEtatJeu(new Gson().toJson(data));
     }
+
+    public List<CouleurWagon> melangerPileCarteCouleurWagon(List<CouleurWagon> pileCarteDeBase) {
+        Random random = new Random();
+        List<CouleurWagon> pileCarteMelange = new ArrayList<>(); //création de la pile de carte qui va être retourne
+        System.out.println(pileCarteDeBase);//affichag de la pile de carte de base
+        int nombreDeCarteDansPileDeBase=pileCarteDeBase.size();
+        for (int i = 0; i < nombreDeCarteDansPileDeBase; i++) { //pour toutes les carte de la pile de base faire
+            int randomNumber = random.nextInt(pileCarteDeBase.size() - 1 + 1);
+            //choix d'une carte alétoire du paquet des carte de wagon
+            CouleurWagon carteCouleurWagonChoisiAleatoirement = pileCarteDeBase.get(randomNumber);
+            pileCarteMelange.add(carteCouleurWagonChoisiAleatoirement);
+            pileCarteDeBase.remove(randomNumber);
+        }
+
+        return pileCarteMelange;
+    }
+
+
 }

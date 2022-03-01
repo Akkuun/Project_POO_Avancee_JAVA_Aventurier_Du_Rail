@@ -306,44 +306,48 @@ public class Jeu implements Runnable {
     }
 
 
-    public List<CouleurWagon> melangerPileCarteCouleurWagon(List<CouleurWagon> pileCarteDeBase) {
+    public List<CouleurWagon> melangerList(List<CouleurWagon> listDeBase) {
         Random random = new Random();
-        List<CouleurWagon> pileCarteMelange = new ArrayList<>(); //création de la pile de carte qui va être retourne
-        System.out.println(pileCarteDeBase);//affichag de la pile de carte de base
-        int nombreDeCarteDansPileDeBase = pileCarteDeBase.size();
+        List<CouleurWagon> listMelange = new ArrayList<>(); //création de la pile de carte qui va être retourne
+        System.out.println(listDeBase);//affichag de la pile de carte de base
+        int nombreDeCarteDansPileDeBase = listDeBase.size();
         for (int i = 0; i < nombreDeCarteDansPileDeBase; i++) { //pour toutes les carte de la pile de base faire
-            int randomNumber = random.nextInt(pileCarteDeBase.size() - 1 + 1);
+            int randomNumber = random.nextInt(listDeBase.size() - 1 + 1);
             //choix d'une carte alétoire du paquet des carte de wagon
-            CouleurWagon carteCouleurWagonChoisiAleatoirement = pileCarteDeBase.get(randomNumber);
-            pileCarteMelange.add(carteCouleurWagonChoisiAleatoirement);
-            pileCarteDeBase.remove(randomNumber);
+            CouleurWagon carteCouleurWagonChoisiAleatoirement = listDeBase.get(randomNumber);
+            listMelange.add(carteCouleurWagonChoisiAleatoirement);
+            listDeBase.remove(randomNumber);
         }
 
-        return pileCarteMelange;
+        return listMelange;
     }
 
 
-    public ArrayList<CouleurWagon> initialiser_nouvelle_pioche() {
-        ArrayList<CouleurWagon> pile = new ArrayList<>();
-        ArrayList<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
-        for (CouleurWagon couleur : couleurs) {
-            for (int i = 0; i < 12; i++) {
-                pile.add(couleur);
+
+        public List<CouleurWagon> initialiser_nouvelle_pioche () {
+            List<CouleurWagon> pile = new ArrayList<>();
+            List<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
+            for (CouleurWagon couleur : couleurs) {
+                for (int i = 0; i < 12; i++) {
+                    pile.add(couleur);
+                }
             }
+            for (int i = 0; i < 14; i++) {
+                pile.add(CouleurWagon.LOCOMOTIVE);
+            }
+            pile = melangerList(pile);
+            return pile;
         }
-        for (int i = 0; i < 14; i++) {
-            pile.add(CouleurWagon.LOCOMOTIVE);
-        }
-        Collections.shuffle(pile);
-        return pile;
-    }
 
-    public ArrayList<CouleurWagon> tirerCartes(int nombre_de_cartes) {
-        ArrayList<CouleurWagon> cartes = new ArrayList<>();
-        for (int i = 0; i < nombre_de_cartes; i++) {
-            cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
-        }
-        return cartes;
+
+        public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
+            ArrayList<CouleurWagon> cartes = new ArrayList<>();
+            for (int i = 0; i < nombre_de_cartes; i++) {
+                cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
+            }
+            return cartes;
+
+
 
     }
 

@@ -229,7 +229,22 @@ public class Jeu implements Runnable {
      * (remise à 5, éventuellement remélangée si 3 locomotives visibles)
      */
     public void retirerCarteWagonVisible(CouleurWagon c) {
-        throw new RuntimeException("Méthode non implémentée !");
+        if(cartesWagonVisibles.remove(c)){
+            cartesWagonVisibles.add(piocherCarteWagon());
+            int nbWagon = 0;
+            for (CouleurWagon carte : cartesWagonVisibles) {
+                if(carte==CouleurWagon.LOCOMOTIVE) {
+                    nbWagon++;
+                }
+            }
+            if (nbWagon>=3){
+                for (CouleurWagon carte : cartesWagonVisibles) {
+                    defausserCarteWagon(carte);
+                }
+                cartesWagonVisibles.clear();
+                cartesWagonVisibles = tirerCartes(5);
+            }
+        }
     }
 
     /**
@@ -368,8 +383,6 @@ public class Jeu implements Runnable {
                 piocherCarteWagon();
             }
             return cartes;
-
-
 
 
     }

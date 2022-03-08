@@ -1,6 +1,7 @@
 package fr.umontpellier.iut.rails;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -46,6 +47,35 @@ class JeuTest {
         carteMelange = jeu.melangerList(ListeCarteWagon);
         System.out.println(carteMelange);
         assertFalse(carteMelange == ListeCarteWagon);
+
+    }
+
+    @Test
+    public void test_piocherCarteWagon_si_aucune_carte_renvoi_null(){
+        Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
+        jeu.tirerCartes(jeu.getPileCartesWagon().size());
+        assertNull(jeu.piocherCarteWagon());
+    }
+
+    @Test
+    public void carte_enlevé_de_la_pile_quand_pioché(){
+        Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
+        int taille_pile = jeu.getPileCartesWagon().size();
+        jeu.piocherCarteWagon();
+        assertEquals(taille_pile-1, jeu.getPileCartesWagon().size());
+    }
+
+    @Test
+    public void carte_pioché_est_la_dernière_carte(){
+        Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
+        CouleurWagon carte_haut_de_pile = jeu.getPileCartesWagon().get(jeu.getPileCartesWagon().size()-1);
+        CouleurWagon carte_pioche = jeu.piocherCarteWagon();
+        assertEquals(carte_haut_de_pile, carte_pioche);
+    }
+
+    @Disabled
+    @Test
+    public void piocherCarteWagon_fonctionne_si_pile_vide_et_defausse_non_vide_et_remelange_la_defausse(){
 
     }
 

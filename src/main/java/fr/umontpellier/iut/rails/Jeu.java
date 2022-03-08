@@ -74,6 +74,8 @@ public class Jeu implements Runnable {
 
         defausseCartesWagon = new ArrayList<>();
         pileDestinations = Destination.makeDestinationsEurope();
+        Collections.shuffle(pileDestinations);
+
 
         // création des joueurs
         ArrayList<Joueur.Couleur> couleurs = new ArrayList<>(Arrays.asList(Joueur.Couleur.values()));
@@ -199,9 +201,11 @@ public class Jeu implements Runnable {
      * @return la carte qui a été piochée (ou null si aucune carte disponible)
      */
     public CouleurWagon piocherCarteWagon() {
-        if (pileCartesWagon.isEmpty()) {
-            if (!defausseCartesWagon.isEmpty()) {
-                melangerDefausse();
+
+        if (pileCartesWagon.isEmpty()){
+            if(!defausseCartesWagon.isEmpty()) {
+                remelangerDefausse();
+
             } else {
                 return null;
             }
@@ -210,7 +214,8 @@ public class Jeu implements Runnable {
 
     }
 
-    public void melangerDefausse() {
+    public void remelangerDefausse(){
+
         int taille_defausse = defausseCartesWagon.size();
         for (int i = 0; i < taille_defausse; i++) {
             pileCartesWagon.add(defausseCartesWagon.remove(i));
@@ -356,12 +361,15 @@ public class Jeu implements Runnable {
     }
 
 
-    public List<CouleurWagon> tirerCartes(int nombre_de_cartes) {
-        ArrayList<CouleurWagon> cartes = new ArrayList<>();
-        for (int i = 0; i < nombre_de_cartes; i++) {
-            cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
-        }
-        return cartes;
+
+        public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
+            ArrayList<CouleurWagon> cartes = new ArrayList<>();
+            for (int i = 0; i < nombre_de_cartes; i++) {
+                piocherCarteWagon();
+            }
+            return cartes;
+
+
 
 
     }

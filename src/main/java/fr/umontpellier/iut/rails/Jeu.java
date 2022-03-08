@@ -183,7 +183,11 @@ public class Jeu implements Runnable {
      * @param c carte à défausser
      */
     public void defausserCarteWagon(CouleurWagon c) {
-        throw new RuntimeException("Méthode non implémentée !");
+        defausseCartesWagon.add(c);
+        if (cartesWagonVisibles.size() < 5) {
+            cartesWagonVisibles.add(c);
+        }
+
     }
 
 
@@ -195,8 +199,8 @@ public class Jeu implements Runnable {
      * @return la carte qui a été piochée (ou null si aucune carte disponible)
      */
     public CouleurWagon piocherCarteWagon() {
-        if (pileCartesWagon.isEmpty()){
-            if(!defausseCartesWagon.isEmpty()) {
+        if (pileCartesWagon.isEmpty()) {
+            if (!defausseCartesWagon.isEmpty()) {
                 melangerDefausse();
             } else {
                 return null;
@@ -206,9 +210,9 @@ public class Jeu implements Runnable {
 
     }
 
-    public void melangerDefausse(){
+    public void melangerDefausse() {
         int taille_defausse = defausseCartesWagon.size();
-        for (int i=0; i<taille_defausse; i++){
+        for (int i = 0; i < taille_defausse; i++) {
             pileCartesWagon.add(defausseCartesWagon.remove(i));
         }
         pileCartesWagon = melangerList(pileCartesWagon);
@@ -336,30 +340,28 @@ public class Jeu implements Runnable {
     }
 
 
-
-        public List<CouleurWagon> initialiser_nouvelle_pioche () {
-            List<CouleurWagon> pile = new ArrayList<>();
-            List<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
-            for (CouleurWagon couleur : couleurs) {
-                for (int i = 0; i < 12; i++) {
-                    pile.add(couleur);
-                }
+    public List<CouleurWagon> initialiser_nouvelle_pioche() {
+        List<CouleurWagon> pile = new ArrayList<>();
+        List<CouleurWagon> couleurs = CouleurWagon.getCouleursSimples();
+        for (CouleurWagon couleur : couleurs) {
+            for (int i = 0; i < 12; i++) {
+                pile.add(couleur);
             }
-            for (int i = 0; i < 14; i++) {
-                pile.add(CouleurWagon.LOCOMOTIVE);
-            }
-            pile = melangerList(pile);
-            return pile;
         }
+        for (int i = 0; i < 14; i++) {
+            pile.add(CouleurWagon.LOCOMOTIVE);
+        }
+        pile = melangerList(pile);
+        return pile;
+    }
 
 
-        public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
-            ArrayList<CouleurWagon> cartes = new ArrayList<>();
-            for (int i = 0; i < nombre_de_cartes; i++) {
-                cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
-            }
-            return cartes;
-
+    public List<CouleurWagon> tirerCartes(int nombre_de_cartes) {
+        ArrayList<CouleurWagon> cartes = new ArrayList<>();
+        for (int i = 0; i < nombre_de_cartes; i++) {
+            cartes.add(pileCartesWagon.remove(pileCartesWagon.size() - 1));
+        }
+        return cartes;
 
 
     }

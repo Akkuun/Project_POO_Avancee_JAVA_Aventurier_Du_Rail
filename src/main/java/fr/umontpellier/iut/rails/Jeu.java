@@ -239,7 +239,11 @@ public class Jeu implements Runnable {
      * disponible)
      */
     public Destination piocherDestination() {
-        throw new RuntimeException("Méthode non implémentée !");
+        if (pileCartesWagon.isEmpty())
+        {
+            return null;
+        }
+        return pileDestinations.get(pileCartesWagon.size()-1);
     }
 
     public List<Joueur> getJoueurs() {

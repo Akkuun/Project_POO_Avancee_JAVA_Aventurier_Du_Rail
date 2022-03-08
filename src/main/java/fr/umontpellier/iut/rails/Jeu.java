@@ -74,6 +74,8 @@ public class Jeu implements Runnable {
 
         defausseCartesWagon = new ArrayList<>();
         pileDestinations = Destination.makeDestinationsEurope();
+        Collections.shuffle(pileDestinations);
+
 
         // création des joueurs
         ArrayList<Joueur.Couleur> couleurs = new ArrayList<>(Arrays.asList(Joueur.Couleur.values()));

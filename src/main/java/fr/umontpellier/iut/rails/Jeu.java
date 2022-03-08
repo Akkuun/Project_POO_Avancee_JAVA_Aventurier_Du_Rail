@@ -205,7 +205,6 @@ public class Jeu implements Runnable {
         if (pileCartesWagon.isEmpty()){
             if(!defausseCartesWagon.isEmpty()) {
                 remelangerDefausse();
-
             } else {
                 return null;
             }
@@ -384,7 +383,7 @@ public class Jeu implements Runnable {
         public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
             ArrayList<CouleurWagon> cartes = new ArrayList<>();
             for (int i = 0; i < nombre_de_cartes; i++) {
-                piocherCarteWagon();
+                cartes.add(piocherCarteWagon());
             }
             return cartes;
 

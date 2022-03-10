@@ -79,5 +79,19 @@ class JeuTest {
 
     }
 
+    @Test
+    public void retirerCarteWagonVisible_remelange_les_cartes_si_trois_vagons(){
+        Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
+        jeu.mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible();
+        jeu.retirerCarteWagonVisible(CouleurWagon.BLANC);
+        int nbCarteWagon=0;
+        for (CouleurWagon carte: jeu.getCartesWagonVisibles()) {
+            if (carte == CouleurWagon.LOCOMOTIVE){
+                nbCarteWagon++;
+            }
+        }
+        assertFalse(nbCarteWagon>=3);
+    }
+
 
 }

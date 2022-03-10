@@ -145,33 +145,35 @@ public class Jeu implements Runnable {
             String choix = joueurCourant.choisir(
                     "Choisissez une taille de route.", // instruction
                     new ArrayList<>(), // choix (hors boutons, ici aucun)
-                    new ArrayList<>(Arrays.asList("1", "2", "3", "4", "6", "8")), // boutons
+                    new ArrayList<>(Arrays.asList("mettre trois loco", "prendre blanc")), // boutons
                     false); // le joueur ne peut pas passer (il doit faire un choix)
 
             // une fois la longueur choisie, on filtre les routes pour ne garder que les
             // routes de la longueur choisie
-            int longueurRoute = Integer.parseInt(choix);
-            ArrayList<String> routesPossibles = new ArrayList<>();
-            for (Route route : routes) {
-                if (route.getLongueur() == longueurRoute) {
-                    routesPossibles.add(route.getNom());
-                }
-            }
+            if(choix.equals("prendre blanc")){retirerCarteWagonVisible(CouleurWagon.BLANC); defausserCarteWagon(CouleurWagon.BLANC);}
+            if(choix.equals("mettre trois loco")){mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible();}
+//            int longueurRoute = Integer.parseInt(choix);
+//            ArrayList<String> routesPossibles = new ArrayList<>();
+//            for (Route route : routes) {
+//                if (route.getLongueur() == longueurRoute) {
+//                    routesPossibles.add(route.getNom());
+//                }
+//            }
 
             // le joueur doit maintenant choisir une route de la longueur choisie (les
             // autres ne sont pas acceptées). Le joueur peut choisir de passer (aucun choix)
-            String choixRoute = joueurCourant.choisir(
-                    "Choisissez une route de longueur " + longueurRoute, // instruction
-                    routesPossibles, // choix (pas des boutons, il faut cliquer sur la carte)
-                    new ArrayList<>(), // boutons (ici aucun bouton créé)
-                    true); // le joueur peut passer sans faire de choix
-            if (choixRoute.equals("")) {
-                // le joueur n'a pas fait de choix (cliqué sur le bouton "passer")
-                log("Auncune route n'a été choisie");
-            } else {
-                // le joueur a choisi une route
-                log("Vous avez choisi la route " + choixRoute);
-            }
+//            String choixRoute = joueurCourant.choisir(
+//                    "Choisissez une route de longueur " + longueurRoute, // instruction
+//                    routesPossibles, // choix (pas des boutons, il faut cliquer sur la carte)
+//                    new ArrayList<>(), // boutons (ici aucun bouton créé)
+//                    true); // le joueur peut passer sans faire de choix
+//            if (choixRoute.equals("")) {
+//                // le joueur n'a pas fait de choix (cliqué sur le bouton "passer")
+//                log("Auncune route n'a été choisie");
+//            } else {
+//                // le joueur a choisi une route
+//                log("Vous avez choisi la route " + choixRoute);
+//            }
         }
     }
 
@@ -230,13 +232,8 @@ public class Jeu implements Runnable {
     public void retirerCarteWagonVisible(CouleurWagon c) {
         if(cartesWagonVisibles.remove(c)){
             cartesWagonVisibles.add(piocherCarteWagon());
-            int nbWagon = 0;
-            for (CouleurWagon carte : cartesWagonVisibles) {
-                if(carte==CouleurWagon.LOCOMOTIVE) {
-                    nbWagon++;
-                }
-            }
-            if (nbWagon>=3){
+
+            while (!moinsDeTroisCartesVagonVisibles()){
                 for (CouleurWagon carte : cartesWagonVisibles) {
                     defausserCarteWagon(carte);
                 }
@@ -244,6 +241,16 @@ public class Jeu implements Runnable {
                 cartesWagonVisibles = tirerCartes(5);
             }
         }
+    }
+
+    public boolean moinsDeTroisCartesVagonVisibles(){
+        int nbWagon = 0;
+        for (CouleurWagon carte : cartesWagonVisibles) {
+            if(carte==CouleurWagon.LOCOMOTIVE) {
+                nbWagon++;
+            }
+        }
+        return nbWagon<3;
     }
 
     /**
@@ -387,6 +394,17 @@ public class Jeu implements Runnable {
             }
             return cartes;
 
+
+    }
+
+    //pour test retirerCarteWagonVisible
+    public void mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible(){
+        cartesWagonVisibles.clear();
+        cartesWagonVisibles.add(CouleurWagon.LOCOMOTIVE);
+        cartesWagonVisibles.add(CouleurWagon.LOCOMOTIVE);
+        cartesWagonVisibles.add(CouleurWagon.LOCOMOTIVE);
+        cartesWagonVisibles.add(CouleurWagon.BLANC);
+        cartesWagonVisibles.add(CouleurWagon.BLEU);
 
     }
 

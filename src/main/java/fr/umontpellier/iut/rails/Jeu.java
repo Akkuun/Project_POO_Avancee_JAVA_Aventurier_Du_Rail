@@ -264,7 +264,7 @@ public class Jeu implements Runnable {
         {
             return null;
         }
-        return pileDestinations.get(pileCartesWagon.size()-1);
+        return pileDestinations.remove(pileDestinations.size()-1);
     }
 
     public List<Joueur> getJoueurs() {

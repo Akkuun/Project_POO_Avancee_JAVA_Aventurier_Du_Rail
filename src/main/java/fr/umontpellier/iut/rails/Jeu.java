@@ -144,16 +144,16 @@ public class Jeu implements Runnable {
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables
             joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
-            String choix = joueurCourant.choisir(
-                    "Choisissez une taille de route.", // instruction
-                    new ArrayList<>(), // choix (hors boutons, ici aucun)
-                    new ArrayList<>(Arrays.asList("mettre trois loco", "prendre blanc")), // boutons
-                    false); // le joueur ne peut pas passer (il doit faire un choix)
+//            String choix = joueurCourant.choisir(
+//                    "Choisissez une taille de route.", // instruction
+//                    new ArrayList<>(), // choix (hors boutons, ici aucun)
+//                    new ArrayList<>(Arrays.asList("mettre trois loco", "prendre blanc")), // boutons
+//                    false); // le joueur ne peut pas passer (il doit faire un choix)
 
             // une fois la longueur choisie, on filtre les routes pour ne garder que les
             // routes de la longueur choisie
-            if(choix.equals("prendre blanc")){retirerCarteWagonVisible(CouleurWagon.BLANC); defausserCarteWagon(CouleurWagon.BLANC);}
-            if(choix.equals("mettre trois loco")){mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible();}
+//            if(choix.equals("prendre blanc")){retirerCarteWagonVisible(CouleurWagon.BLANC); defausserCarteWagon(CouleurWagon.BLANC);}
+//            if(choix.equals("mettre trois loco")){mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible();}
 //            int longueurRoute = Integer.parseInt(choix);
 //            ArrayList<String> routesPossibles = new ArrayList<>();
 //            for (Route route : routes) {

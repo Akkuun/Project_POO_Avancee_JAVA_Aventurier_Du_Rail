@@ -234,21 +234,32 @@ public class Joueur {
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
 
-        ArrayList<String> choix_destination = new ArrayList<>(Arrays.asList("choix_destination")); //création du choix  "choix_destination"
+        ArrayList<String> choix_destination = new ArrayList<>(0); //création du choix  "choix_destination"
 
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
-        for (Destination carte : destinationsPossibles) {
-            boutons_cartes_destinations.add(carte.getNom());
+        String choix = "premier";
+        int longueur = destinationsPossibles.size();
+        for(int i=0; i<longueur&&!choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
+            boutons_cartes_destinations.clear();
+            log("--------------------------");
+            for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
+                boutons_cartes_destinations.add(carte.getNom());
+                log(carte.getNom());
+            }
+            boolean peutPasser=false;
+            if(i>=n){peutPasser=true;}
+            choix = choisir("choisir destinations",
+                    choix_destination,
+                    boutons_cartes_destinations,
+                    peutPasser); //affichage de tout les boutons
+
+
+            Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
+            destinations.add(choisi);
+            destinationsPossibles.remove(choisi);
+
+
         }
-
-        String choix = choisir("choisir destinations",
-                choix_destination,
-                boutons_cartes_destinations,
-                false); //affichage de tout les boutons
-
-
-        Destination choisi = Destination.getDestinationAvecNom(choix,destinationsPossibles);
-        log(choisi.getNom());
 
 
 

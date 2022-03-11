@@ -140,8 +140,10 @@ public class Jeu implements Runnable {
 
         // Exemple d'utilisation
         while (true) {
+
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables
+            joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
             String choix = joueurCourant.choisir(
                     "Choisissez une taille de route.", // instruction
                     new ArrayList<>(), // choix (hors boutons, ici aucun)

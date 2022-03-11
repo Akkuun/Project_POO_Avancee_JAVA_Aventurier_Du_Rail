@@ -233,7 +233,31 @@ public class Joueur {
      * @return liste des destinations qui n'ont pas été gardées par le joueur
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
-        throw new RuntimeException("Méthode non implémentée !");
+
+        ArrayList<String> choix_destination = new ArrayList<>(Arrays.asList("choix_destination")); //création du choix  "choix_destination"
+
+        ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
+        for (Destination carte : destinationsPossibles) {
+            boutons_cartes_destinations.add(carte.getNom());
+        }
+
+        String choix = choisir("choisir destinations",
+                choix_destination,
+                boutons_cartes_destinations,
+                false); //affichage de tout les boutons
+
+
+        Destination choisi = Destination.getDestinationAvecNom(choix,destinationsPossibles);
+        log(choisi.getNom());
+
+
+
+       /* while (list_destination_choisi.size() > n) {
+            choisir("choisir une destination", choix_destination, trajet_carte, false);
+            list_destination_choisi.add(c)
+        }*/
+        return destinationsPossibles;
+
     }
 
     /**
@@ -256,6 +280,6 @@ public class Joueur {
      * "construire une gare", "choisir les destinations à défausser", etc.)
      */
     public void jouerTour() {
-        throw new RuntimeException("Méthode non implémentée !");
+
     }
 }

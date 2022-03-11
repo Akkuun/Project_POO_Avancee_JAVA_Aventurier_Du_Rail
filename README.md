@@ -168,9 +168,6 @@ Toutes les méthodes qui lèvent une exception avec l'instruction `throw new Run
 
 **Rappel : pas de modification des signatures des méthodes/attributs qui vous sont fournis.**
 
-L'exécution de la méthode `main(String args[])` de la classe `App` (à la racine du projet) doit démarrer une partie avec un nombre de cartes inventaire correspondant au nombre de vies attribuées au joueur.
-Cette fonction servira simplement à exécuter manuellement une partie et à faire des petites simulations.
-
 ## Évaluation
 
 L'évaluation du projet se fera à l'aide de tests unitaires automatisés. Un premier jeu de tests vous est fourni (comme d'habitude dans le répertoire `src/test/java`) pour que vous puissiez vérifier le bon fonctionnement des fonctionnalités de base. Puis nous utiliserons un second jeu de tests (secret) pour l'évaluation finale.

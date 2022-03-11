@@ -2,6 +2,8 @@ package fr.umontpellier.iut.rails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class Destination {
     /**
@@ -101,5 +103,15 @@ public class Destination {
         destinations.add(new Destination("Edinburgh", "Athina", 21));
         destinations.add(new Destination("Cadiz", "Stockholm", 21));
         return destinations;
+    }
+
+    public static Destination getDestinationAvecNom(String nomCarte, List<Destination> listeCarteDestinations){
+       Destination destinationObtenu = null;
+        for (int i=0;i<listeCarteDestinations.size();i++){
+            if (Objects.equals(listeCarteDestinations.get(i).getNom(), nomCarte)){
+                destinationObtenu=listeCarteDestinations.get(i);
+            }
+        }
+        return destinationObtenu;
     }
 }

@@ -393,9 +393,8 @@ public class Jeu implements Runnable {
                 cartes.add(piocherCarteWagon());
             }
             return cartes;
-
-
     }
+
 
     //pour test retirerCarteWagonVisible
     public void mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible(){

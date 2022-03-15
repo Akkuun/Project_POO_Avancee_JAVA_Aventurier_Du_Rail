@@ -89,8 +89,10 @@ public class Jeu implements Runnable {
         joueurCourant = joueurs.get(0);
 
         //faire piocher les 4 cartes à tout les joueurs
+
         for (Joueur joueur:joueurs) {
             joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
+
         }
 
         // création des villes et des routes
@@ -143,9 +145,43 @@ public class Jeu implements Runnable {
          * interagir avec l'utilisateur, il n'a rien à voir avec le code de la partie et
          * doit donc être entièrement réécrit.
          */
+        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
+        Collections.shuffle(destinationsLongues);
 
+        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
+        ArrayList<Destination> defausseDestination= new ArrayList<>();
+        for (Joueur joueur:joueurs) {
+            joueurCourant=joueur;
+            destinationsPossibles.clear();
+            destinationsPossibles.add(pileDestinations.remove(0)); //ajoute 3 cartes dans le choix de destination du joueurs
+            destinationsPossibles.add(pileDestinations.remove(0));
+            destinationsPossibles.add(pileDestinations.remove(0));
+            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue
+
+
+            defausseDestination.addAll( joueurCourant.choisirDestinations(destinationsPossibles,2)); //ajoute dans la défausse tout les cartes pas choisi
+
+
+        }
+        //remettre dans le paquet les cartes non choisi courtes
+        ArrayList<Destination> destinationConformes = new ArrayList<>();
+        for (Destination destination: defausseDestination) {
+            if (!Destination.makeDestinationsLonguesEurope().contains(destination))
+            {
+                destinationConformes.add(destination);
+            }
+
+        }
+        for (Destination destination: destinationConformes) {
+            pileDestinations.add(destination);
+
+        }
+Collections.shuffle(pileDestinations);
         // Exemple d'utilisation
         while (true) {
+
+
+
 
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables

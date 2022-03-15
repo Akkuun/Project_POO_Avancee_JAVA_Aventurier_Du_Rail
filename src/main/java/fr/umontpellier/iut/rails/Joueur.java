@@ -241,7 +241,7 @@ public class Joueur {
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
         String choix = "premier";
         int longueur = destinationsPossibles.size();
-        for (int i = 0; i < longueur && !choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
+        for (int i = 0; i < longueur && !choix.equals(""); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
             boutons_cartes_destinations.clear();
 
             for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
@@ -255,13 +255,14 @@ public class Joueur {
             choix = choisir("choisir destinations",
                     choix_destination,
                     boutons_cartes_destinations,
-                    peutPasser); //affichage de tout les boutons
+                     peutPasser); //affichage de tout les boutons
 
+            if (!choix.equals("")){
+                Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
+                destinations.add(choisi);
+                destinationsPossibles.remove(choisi);
 
-            Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
-            destinations.add(choisi);
-            destinationsPossibles.remove(choisi);
-
+            }
 
         }
 
@@ -302,6 +303,10 @@ public class Joueur {
         for (CouleurWagon carte : cartesAPiocher) {
             cartesWagon.add(carte);
         }
+    }
+
+    public void addDestination(Destination destination){
+        destinations.add(destination);
     }
 
 

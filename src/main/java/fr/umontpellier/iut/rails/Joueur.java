@@ -50,6 +50,7 @@ public class Joueur {
      */
     private int score;
 
+
     public Joueur(String nom, Jeu jeu, Joueur.Couleur couleur) {
         this.nom = nom;
         this.jeu = jeu;
@@ -60,6 +61,7 @@ public class Joueur {
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
         score = 12; // chaque gare non utilisée vaut 4 points
+
     }
 
     public String getNom() {
@@ -234,20 +236,22 @@ public class Joueur {
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
 
-        ArrayList<String> choix_destination = new ArrayList<>(0); //création du choix  "choix_destination"
+        ArrayList<String> choix_destination = new ArrayList<>(); //création du choix  "choix_destination"
 
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
         String choix = "premier";
         int longueur = destinationsPossibles.size();
-        for(int i=0; i<longueur&&!choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
+        for (int i = 0; i < longueur && !choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
             boutons_cartes_destinations.clear();
-            log("--------------------------");
+
             for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
                 boutons_cartes_destinations.add(carte.getNom());
-                log(carte.getNom());
+
             }
-            boolean peutPasser=false;
-            if(i>=n){peutPasser=true;}
+            boolean peutPasser = false;
+            if (i >= n) {
+                peutPasser = true;
+            }
             choix = choisir("choisir destinations",
                     choix_destination,
                     boutons_cartes_destinations,
@@ -293,4 +297,12 @@ public class Joueur {
     public void jouerTour() {
 
     }
+
+    public void addCarteWagon(ArrayList<CouleurWagon> cartesAPiocher) {
+        for (CouleurWagon carte : cartesAPiocher) {
+            cartesWagon.add(carte);
+        }
+    }
+
+
 }

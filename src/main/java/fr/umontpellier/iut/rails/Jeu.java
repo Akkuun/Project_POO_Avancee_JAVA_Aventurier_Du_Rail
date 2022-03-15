@@ -70,7 +70,7 @@ public class Jeu implements Runnable {
         // création des cartes
 
         pileCartesWagon = initialiser_nouvelle_pioche();
-        cartesWagonVisibles = tirerCartes(5);
+        cartesWagonVisibles = piocher_n_Cartes_CarteWagon(5);
 
         defausseCartesWagon = new ArrayList<>();
         pileDestinations = Destination.makeDestinationsEurope();
@@ -83,9 +83,15 @@ public class Jeu implements Runnable {
         joueurs = new ArrayList<>();
         for (String nom : nomJoueurs) {
             Joueur joueur = new Joueur(nom, this, couleurs.remove(0));
+
             joueurs.add(joueur);
         }
         joueurCourant = joueurs.get(0);
+
+        //faire piocher les 4 cartes à tout les joueurs
+        for (Joueur joueur:joueurs) {
+            joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
+        }
 
         // création des villes et des routes
         Plateau plateau = Plateau.makePlateauEurope();
@@ -240,7 +246,7 @@ public class Jeu implements Runnable {
                     defausserCarteWagon(carte);
                 }
                 cartesWagonVisibles.clear();
-                cartesWagonVisibles = tirerCartes(5);
+                cartesWagonVisibles = piocher_n_Cartes_CarteWagon(5);
             }
         }
     }
@@ -389,7 +395,7 @@ public class Jeu implements Runnable {
 
 
 
-        public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
+        public ArrayList<CouleurWagon> piocher_n_Cartes_CarteWagon(int nombre_de_cartes){
             ArrayList<CouleurWagon> cartes = new ArrayList<>();
             for (int i = 0; i < nombre_de_cartes; i++) {
                 cartes.add(piocherCarteWagon());

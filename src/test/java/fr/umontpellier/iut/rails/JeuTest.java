@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,7 +52,7 @@ class JeuTest {
     @Test
     public void test_piocherCarteWagon_si_aucune_carte_renvoi_null(){
         Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
-        jeu.tirerCartes(jeu.getPileCartesWagon().size());
+        jeu.piocher_n_Cartes_CarteWagon(jeu.getPileCartesWagon().size());
         assertNull(jeu.piocherCarteWagon());
     }
 

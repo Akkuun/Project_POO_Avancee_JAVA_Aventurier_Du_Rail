@@ -235,36 +235,37 @@ public class Joueur {
      * @return liste des destinations qui n'ont pas été gardées par le joueur
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
-
-        ArrayList<String> choix_destination = new ArrayList<>(); //création du choix  "choix_destination"
-
+        ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix  "choix_destination"
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
-        String choix = "premier";
-        int longueur = destinationsPossibles.size();
-        for (int i = 0; i < longueur && !choix.equals(""); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
-            boutons_cartes_destinations.clear();
+        int nombreDeDestinationsRestantes = destinationsPossibles.size();
 
+        while (nombreDeDestinationsRestantes > n) {
+            boutons_cartes_destinations.clear();
             for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
                 boutons_cartes_destinations.add(carte.getNom());
+            }
 
-            }
-            boolean peutPasser = false;
-            if (i >= n) {
-                peutPasser = true;
-            }
-            choix = choisir("choisir destinations",
-                    choix_destination,
+            String choix = choisir("choisir destinations",
+                    new ArrayList<>(),
                     boutons_cartes_destinations,
-                     peutPasser); //affichage de tout les boutons
+                    true); //affichage de tout les boutons
 
-            if (!choix.equals("")){
+            if (!choix.equals("")) {
                 Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
-                destinations.add(choisi);
+                destinationsDefaussees.add(choisi);
                 destinationsPossibles.remove(choisi);
-
+                nombreDeDestinationsRestantes--;
             }
-
+            else{
+                return destinationsDefaussees;
+            }
         }
+        destinations.addAll(destinationsPossibles);
+        return  destinationsDefaussees;
+    }
+
+
+
 
 
 
@@ -272,9 +273,9 @@ public class Joueur {
             choisir("choisir une destination", choix_destination, trajet_carte, false);
             list_destination_choisi.add(c)
         }*/
-        return destinationsPossibles;
 
-    }
+
+
 
     /**
      * Exécute un tour de jeu du joueur.
@@ -305,7 +306,7 @@ public class Joueur {
         }
     }
 
-    public void addDestination(Destination destination){
+    public void addDestination(Destination destination) {
         destinations.add(destination);
     }
 

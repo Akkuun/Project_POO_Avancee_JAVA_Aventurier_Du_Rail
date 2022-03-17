@@ -245,7 +245,7 @@ public class Joueur {
                 boutons_cartes_destinations.add(carte.getNom());
             }
 
-            String choix = choisir("choisir destinations",
+            String choix = choisir("Deffaussez destination qui ne vous convienne pas",
                     new ArrayList<>(),
                     boutons_cartes_destinations,
                     true); //affichage de tout les boutons
@@ -257,6 +257,7 @@ public class Joueur {
                 nombreDeDestinationsRestantes--;
             }
             else{
+                destinations.addAll(destinationsPossibles);
                 return destinationsDefaussees;
             }
         }

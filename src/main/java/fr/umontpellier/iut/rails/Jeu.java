@@ -144,40 +144,23 @@ public class Jeu implements Runnable {
          * Le code proposé ici n'est qu'un exemple d'utilisation des méthodes pour
          * interagir avec l'utilisateur, il n'a rien à voir avec le code de la partie et
          * doit donc être entièrement réécrit.
-         */
+
+
+        /********************* TOUR 0 || Distribution des cartes destination ************************************/
         ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
         Collections.shuffle(destinationsLongues);
 
         ArrayList<Destination> destinationsPossibles= new ArrayList<>();
-        ArrayList<Destination> defausseDestination= new ArrayList<>();
         for (Joueur joueur:joueurs) {
             joueurCourant=joueur;
             destinationsPossibles.clear();
-            destinationsPossibles.add(pileDestinations.remove(0)); //ajoute 3 cartes dans le choix de destination du joueurs
-            destinationsPossibles.add(pileDestinations.remove(0));
-            destinationsPossibles.add(pileDestinations.remove(0));
-            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue
-
-
-            defausseDestination.addAll( joueurCourant.choisirDestinations(destinationsPossibles,2)); //ajoute dans la défausse tout les cartes pas choisi
-
-
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
+            joueurCourant.choisirDestinations(destinationsPossibles,2);
         }
-        //remettre dans le paquet les cartes non choisi courtes
-        ArrayList<Destination> destinationConformes = new ArrayList<>();
-        for (Destination destination: defausseDestination) {
-            if (!Destination.makeDestinationsLonguesEurope().contains(destination))
-            {
-                destinationConformes.add(destination);
-            }
 
-        }
-        for (Destination destination: destinationConformes) {
-            pileDestinations.add(destination);
-
-        }
-Collections.shuffle(pileDestinations);
-        // Exemple d'utilisation
         while (true) {
 
 
@@ -268,6 +251,9 @@ Collections.shuffle(pileDestinations);
         pileCartesWagon = melangerList(pileCartesWagon);
     }
 
+
+
+
     /**
      * Retire une carte wagon de la pile des cartes wagon visibles.
      * Si une carte a été retirée, la pile de cartes wagons visibles est recomplétée
@@ -304,11 +290,7 @@ Collections.shuffle(pileDestinations);
      * disponible)
      */
     public Destination piocherDestination() {
-        if (pileCartesWagon.isEmpty())
-        {
-            return null;
-        }
-        return pileDestinations.remove(pileDestinations.size()-1);
+        return pileDestinations.isEmpty() ?  null :  pileDestinations.remove(pileDestinations.size()-1);
     }
 
     public List<Joueur> getJoueurs() {

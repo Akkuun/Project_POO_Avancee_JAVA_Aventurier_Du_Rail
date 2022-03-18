@@ -147,28 +147,29 @@ public class Jeu implements Runnable {
 
 
         /********************* TOUR 0 || Distribution des cartes destination ************************************/
-        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
-        Collections.shuffle(destinationsLongues);
-
-        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
-        for (Joueur joueur:joueurs) {
-            joueurCourant=joueur;
-            destinationsPossibles.clear();
-            destinationsPossibles.add(piocherDestination());
-            destinationsPossibles.add(piocherDestination());
-            destinationsPossibles.add(piocherDestination());
-            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
-            joueurCourant.choisirDestinations(destinationsPossibles,2);
-        }
+//        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
+//        Collections.shuffle(destinationsLongues);
+//
+//        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
+//        for (Joueur joueur:joueurs) {
+//            joueurCourant=joueur;
+//            destinationsPossibles.clear();
+//            destinationsPossibles.add(piocherDestination());
+//            destinationsPossibles.add(piocherDestination());
+//            destinationsPossibles.add(piocherDestination());
+//            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
+//            joueurCourant.choisirDestinations(destinationsPossibles,2);
+//        }
 
         while (true) {
+            joueurCourant.jouerTour();
 
 
 
 
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables
-            joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
+  //          joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
 //            String choix = joueurCourant.choisir(
 //                    "Choisissez une taille de route.", // instruction
 //                    new ArrayList<>(), // choix (hors boutons, ici aucun)
@@ -250,6 +251,7 @@ public class Jeu implements Runnable {
         }
         pileCartesWagon = melangerList(pileCartesWagon);
     }
+
 
 
 
@@ -431,6 +433,42 @@ public class Jeu implements Runnable {
         cartesWagonVisibles.add(CouleurWagon.BLANC);
         cartesWagonVisibles.add(CouleurWagon.BLEU);
 
+    }
+
+    public ArrayList<String> getNomVillesSansProprietaires(){
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Ville ville : villes) {
+            if (ville.getProprietaire()!=null){
+                resultat.add(ville.getNom());
+            }
+        }
+        return resultat;
+    }
+
+    public ArrayList<String> getNomRoutesSansProprietaires(){
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Route route : routes) {
+            if (route.getProprietaire()!=null){
+                resultat.add(route.getNom());
+            }
+        }
+        return resultat;
+    }
+
+    public ArrayList<String> routeToString(List<Route> routes){
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Route route : routes) {
+                resultat.add(route.getNom());
+        }
+        return resultat;
+    }
+
+    public ArrayList<String> vileToString(List<Ville> villes){
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Ville ville : villes) {
+            resultat.add(ville.getNom());
+        }
+        return resultat;
     }
 
 

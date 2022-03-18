@@ -240,23 +240,24 @@ public class Joueur {
         String choix = "premier";
         int longueur = destinationsPossibles.size();
         for(int i=0; i<longueur&&!choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
-            boutons_cartes_destinations.clear();
-            log("--------------------------");
-            for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
-                boutons_cartes_destinations.add(carte.getNom());
-                log(carte.getNom());
-            }
+//            boutons_cartes_destinations.clear();
+//            log("--------------------------");
+//            for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
+//                boutons_cartes_destinations.add(carte.getNom());
+//                log(carte.getNom());
+//            }
             boolean peutPasser=false;
             if(i>=n){peutPasser=true;}
             choix = choisir("choisir destinations",
                     choix_destination,
                     boutons_cartes_destinations,
                     peutPasser); //affichage de tout les boutons
+            log("."+choix+";");
 
 
             Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
             destinations.add(choisi);
-            destinationsPossibles.remove(choisi);
+            destinationsPossibles.remove(0);
 
 
         }

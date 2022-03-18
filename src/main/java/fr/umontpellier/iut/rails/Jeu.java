@@ -70,7 +70,7 @@ public class Jeu implements Runnable {
         // création des cartes
 
         pileCartesWagon = initialiser_nouvelle_pioche();
-        cartesWagonVisibles = tirerCartes(5);
+        cartesWagonVisibles = piocher_n_Cartes_CarteWagon(5);
 
         defausseCartesWagon = new ArrayList<>();
         pileDestinations = Destination.makeDestinationsEurope();
@@ -83,9 +83,17 @@ public class Jeu implements Runnable {
         joueurs = new ArrayList<>();
         for (String nom : nomJoueurs) {
             Joueur joueur = new Joueur(nom, this, couleurs.remove(0));
+
             joueurs.add(joueur);
         }
         joueurCourant = joueurs.get(0);
+
+        //faire piocher les 4 cartes à tout les joueurs
+
+        for (Joueur joueur:joueurs) {
+            joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
+
+        }
 
         // création des villes et des routes
         Plateau plateau = Plateau.makePlateauEurope();
@@ -136,10 +144,27 @@ public class Jeu implements Runnable {
          * Le code proposé ici n'est qu'un exemple d'utilisation des méthodes pour
          * interagir avec l'utilisateur, il n'a rien à voir avec le code de la partie et
          * doit donc être entièrement réécrit.
-         */
 
-        // Exemple d'utilisation
+
+        /********************* TOUR 0 || Distribution des cartes destination ************************************/
+        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
+        Collections.shuffle(destinationsLongues);
+
+        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
+        for (Joueur joueur:joueurs) {
+            joueurCourant=joueur;
+            destinationsPossibles.clear();
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
+            joueurCourant.choisirDestinations(destinationsPossibles,2);
+        }
+
         while (true) {
+
+
+
 
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables
@@ -226,6 +251,9 @@ public class Jeu implements Runnable {
         pileCartesWagon = melangerList(pileCartesWagon);
     }
 
+
+
+
     /**
      * Retire une carte wagon de la pile des cartes wagon visibles.
      * Si une carte a été retirée, la pile de cartes wagons visibles est recomplétée
@@ -240,7 +268,7 @@ public class Jeu implements Runnable {
                     defausserCarteWagon(carte);
                 }
                 cartesWagonVisibles.clear();
-                cartesWagonVisibles = tirerCartes(5);
+                cartesWagonVisibles = piocher_n_Cartes_CarteWagon(5);
             }
         }
     }
@@ -262,11 +290,7 @@ public class Jeu implements Runnable {
      * disponible)
      */
     public Destination piocherDestination() {
-        if (pileCartesWagon.isEmpty())
-        {
-            return null;
-        }
-        return pileDestinations.remove(pileDestinations.size()-1);
+        return pileDestinations.isEmpty() ?  null :  pileDestinations.remove(pileDestinations.size()-1);
     }
 
     public List<Joueur> getJoueurs() {
@@ -389,7 +413,7 @@ public class Jeu implements Runnable {
 
 
 
-        public List<CouleurWagon> tirerCartes ( int nombre_de_cartes){
+        public ArrayList<CouleurWagon> piocher_n_Cartes_CarteWagon(int nombre_de_cartes){
             ArrayList<CouleurWagon> cartes = new ArrayList<>();
             for (int i = 0; i < nombre_de_cartes; i++) {
                 cartes.add(piocherCarteWagon());

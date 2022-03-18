@@ -50,6 +50,7 @@ public class Joueur {
      */
     private int score;
 
+
     public Joueur(String nom, Jeu jeu, Joueur.Couleur couleur) {
         this.nom = nom;
         this.jeu = jeu;
@@ -60,6 +61,7 @@ public class Joueur {
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
         score = 12; // chaque gare non utilisée vaut 4 points
+
     }
 
     public String getNom() {
@@ -233,44 +235,40 @@ public class Joueur {
      * @return liste des destinations qui n'ont pas été gardées par le joueur
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
-
-        ArrayList<String> choix_destination = new ArrayList<>(0); //création du choix  "choix_destination"
-
+        ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix  "choix_destination"
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
-        String choix = "premier";
-        int longueur = destinationsPossibles.size();
-        for(int i=0; i<longueur&&!choix.equals(" "); i++) { //boucle qui permet de choisir autant de carte que proposer dans destinationPossibles
-//            boutons_cartes_destinations.clear();
-//            log("--------------------------");
-//            for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
-//                boutons_cartes_destinations.add(carte.getNom());
-//                log(carte.getNom());
-//            }
-            boolean peutPasser=false;
-            if(i>=n){peutPasser=true;}
-            choix = choisir("choisir destinations",
-                    choix_destination,
+
+        int nombreDeDestinationsRestantes = destinationsPossibles.size();
+
+        while (nombreDeDestinationsRestantes > n) {
+            boutons_cartes_destinations.clear();
+            for (Destination carte : destinationsPossibles) {//créer un bouton pour chaque carte dans destinationPossible
+                boutons_cartes_destinations.add(carte.getNom());
+            }
+
+            String choix = choisir("Deffaussez destination qui ne vous convienne pas",
+                    new ArrayList<>(),
                     boutons_cartes_destinations,
-                    peutPasser); //affichage de tout les boutons
-            log("."+choix+";");
+                    true); //affichage de tout les boutons
 
 
-            Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
-            destinations.add(choisi);
-            destinationsPossibles.remove(0);
-
-
+            if (!choix.equals("")) {
+                Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
+                destinationsDefaussees.add(choisi);
+                destinationsPossibles.remove(choisi);
+                nombreDeDestinationsRestantes--;
+            }
+            else{
+                destinations.addAll(destinationsPossibles);
+                return destinationsDefaussees;
+            }
         }
-
-
-
-       /* while (list_destination_choisi.size() > n) {
-            choisir("choisir une destination", choix_destination, trajet_carte, false);
-            list_destination_choisi.add(c)
-        }*/
-        return destinationsPossibles;
-
+        destinations.addAll(destinationsPossibles);
+        return  destinationsDefaussees;
     }
+
+
+
 
     /**
      * Exécute un tour de jeu du joueur.
@@ -292,6 +290,17 @@ public class Joueur {
      * "construire une gare", "choisir les destinations à défausser", etc.)
      */
     public void jouerTour() {
-
     }
+
+    public void addCarteWagon(ArrayList<CouleurWagon> cartesAPiocher) {
+        for (CouleurWagon carte : cartesAPiocher) {
+            cartesWagon.add(carte);
+        }
+    }
+
+    public void addDestination(Destination destination) {
+        destinations.add(destination);
+    }
+
+
 }

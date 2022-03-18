@@ -35,18 +35,28 @@ public enum CouleurWagon {
         return new ArrayList<>(List.of(NOIR, BLANC, JAUNE, ROUGE, ORANGE, BLEU, VERT, ROSE));
     }
 
+    public static ArrayList<String> getAllCouleursString() {
+        ArrayList<String> result = new ArrayList<>();
+        for (CouleurWagon couleur : getCouleursSimples()) {
+            result.add(couleur.toString());
+        }
+        result.add("Gris");
+        result.add("Locomotive");
+        return result;
+    }
+
     /**
      * Renvoie la représentation sous forme d'une chaîne de caractères d'une liste
      * non ordonnée de couleurs.
-     * 
+     * <p>
      * La chaîne est constituée du nom de chaque couleur qui apparaît dans la liste,
      * suivie éventuellement d'une chaîne de la forme " x n" où n est le nombre de
      * fois que la couleur apparaît dans la liste, si n > 1. Les couleurs sont
      * séparées par des virgules.
-     * 
+     *
      * @param liste une liste de couleurs (considérée comme non ordonnée)
      * @return une chaîne de caractères décrivant les éléments qui apparaissent dans
-     *         la liste
+     * la liste
      */
     public static String listToString(List<CouleurWagon> liste) {
         StringJoiner joiner = new StringJoiner(", ");

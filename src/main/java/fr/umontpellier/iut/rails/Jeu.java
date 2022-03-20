@@ -162,7 +162,10 @@ public class Jeu implements Runnable {
 //        }
 
         while (true) {
-            joueurCourant.jouerTour();
+            for (Joueur joueur : joueurs) {
+                joueurCourant = joueur;
+                joueurCourant.jouerTour();
+            }
 
 
 

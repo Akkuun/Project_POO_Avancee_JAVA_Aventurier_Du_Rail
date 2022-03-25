@@ -268,16 +268,6 @@ public class Joueur {
 
 
 
-
-
-       /* while (list_destination_choisi.size() > n) {
-            choisir("choisir une destination", choix_destination, trajet_carte, false);
-            list_destination_choisi.add(c)
-        }*/
-
-
-
-
     /**
      * Exécute un tour de jeu du joueur.
      * <p>
@@ -298,6 +288,8 @@ public class Joueur {
      * "construire une gare", "choisir les destinations à défausser", etc.)
      */
     public void jouerTour() {
+
+
 
     }
 

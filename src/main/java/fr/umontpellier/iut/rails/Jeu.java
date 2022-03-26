@@ -267,6 +267,10 @@ public class Jeu implements Runnable {
         return pileDestinations.isEmpty() ? null : pileDestinations.remove(pileDestinations.size() - 1);
     }
 
+    public boolean pileDestinationIsEmpty(){
+        return pileDestinations.isEmpty();
+    }
+
     public List<Joueur> getJoueurs() {
         return joueurs;
     }
@@ -440,6 +444,10 @@ public class Jeu implements Runnable {
             resultat.add(ville.getNom());
         }
         return resultat;
+    }
+
+    public void remettreCarteDestinationDansPile(ArrayList<Destination> destinations){
+        pileDestinations.addAll(destinations);
     }
 
 

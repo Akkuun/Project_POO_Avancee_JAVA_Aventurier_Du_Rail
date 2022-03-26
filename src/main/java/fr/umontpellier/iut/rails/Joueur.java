@@ -56,7 +56,7 @@ public class Joueur {
         this.jeu = jeu;
         this.couleur = couleur;
         nbGares = 3;
-        nbWagons = 5;
+        nbWagons = 45;
         cartesWagon = new ArrayList<>();
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
@@ -234,10 +234,11 @@ public class Joueur {
      *                              doit garder
      * @return liste des destinations qui n'ont pas été gardées par le joueur
      */
-    public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
+    public ArrayList<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
         ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix "choix_destination"
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
 
+        while (destinationsPossibles.remove(null)){/*tkt je sais ce que je fais*/}
         int nombreDeDestinationsRestantes = destinationsPossibles.size();
 
         while (nombreDeDestinationsRestantes > n) {
@@ -246,7 +247,7 @@ public class Joueur {
                 boutons_cartes_destinations.add(carte.getNom());
             }
 
-            String choix = choisir("Deffaussez destination qui ne vous convienne pas",
+            String choix = choisir("Deffaussez les destinations dont vous ne voulez pas",
                     new ArrayList<>(),
                     boutons_cartes_destinations,
                     true); //affichage de tout les boutons
@@ -288,7 +289,7 @@ public class Joueur {
      */
     public void jouerTour() {
         toLog();
-        ArrayList<String> choixBoutons = new ArrayList<>(List.of("destinations"));
+        ArrayList<String> choixBoutons = new ArrayList<>();
         ArrayList<String> choixHorsBoutons = new ArrayList<>();
         if(!jeu.getCartesWagonVisibles().isEmpty()) {
             for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
@@ -298,15 +299,27 @@ public class Joueur {
             choixHorsBoutons.add("GRIS");
             choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires());
             choixHorsBoutons.addAll(jeu.getNomRoutesSansProprietaires());
+            if(!jeu.pileDestinationIsEmpty()){
+                choixHorsBoutons.add("destinations");
+                choixBoutons.add("destinations");
+            }
 
         String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
 
         if(CouleurWagon.getAllCouleursString().contains(choix)) {
             choisirCarteWagon(choix);
+
         } else if (jeu.getNomRoutesSansProprietaires().contains(choix)){
                 construireRoute(choix);
+
+        }else if (choix.equals("destinations")){
+            ArrayList<Destination> destinationsPossibles = new ArrayList<>();
+            destinationsPossibles.add(jeu.piocherDestination());
+            destinationsPossibles.add(jeu.piocherDestination());
+            destinationsPossibles.add(jeu.piocherDestination());//si plus de cartes, piocher retourne null
+
+            jeu.remettreCarteDestinationDansPile(choisirDestinations(destinationsPossibles, 1));
         }
-        log("\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     public void addCarteWagon(ArrayList<CouleurWagon> cartesAPiocher) {

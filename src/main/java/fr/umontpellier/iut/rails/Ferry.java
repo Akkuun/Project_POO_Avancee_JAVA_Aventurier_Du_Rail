@@ -17,4 +17,13 @@ public class Ferry extends Route {
                 nbLocomotives);
     }
 
+    @Override
+    public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
+        int nbLocomotivesJoueur = 0;
+        for (CouleurWagon carte : joueur.getCartesWagon()) {
+            if(carte == CouleurWagon.LOCOMOTIVE){nbLocomotivesJoueur ++;}
+        }
+        if(nbLocomotivesJoueur<nbLocomotives){joueur.log("vous n'avez pas assez de cartes Locomotives\nVous ne pouvez prendre ce ferry !");}
+        return super.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur) && nbLocomotivesJoueur>=nbLocomotives;
+    }
 }

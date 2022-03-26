@@ -163,6 +163,7 @@ public class Jeu implements Runnable {
 
         while (true) {
             for (Joueur joueur : joueurs) {
+                log.clear();
                 joueurCourant = joueur;
                 joueurCourant.jouerTour();
             }
@@ -221,6 +222,7 @@ public class Jeu implements Runnable {
         defausseCartesWagon.add(c);
         if (cartesWagonVisibles.size() < 5) {
             cartesWagonVisibles.add(c);
+            defausseCartesWagon.remove(defausseCartesWagon.size()-1);
         }
 
     }
@@ -242,8 +244,7 @@ public class Jeu implements Runnable {
                 return null;
             }
         }
-        return pileCartesWagon.remove(pileCartesWagon.size() - 1);
-
+        return pileCartesWagon.remove(0);
     }
 
     public void remelangerDefausse(){
@@ -268,7 +269,7 @@ public class Jeu implements Runnable {
         if(cartesWagonVisibles.remove(c)){
             cartesWagonVisibles.add(piocherCarteWagon());
 
-            while (!moinsDeTroisCartesVagonVisibles()){
+            while (!moinsDeTroisCartesLocomotiveVisibles()){
                 for (CouleurWagon carte : cartesWagonVisibles) {
                     defausserCarteWagon(carte);
                 }
@@ -278,7 +279,7 @@ public class Jeu implements Runnable {
         }
     }
 
-    public boolean moinsDeTroisCartesVagonVisibles(){
+    public boolean moinsDeTroisCartesLocomotiveVisibles(){
         int nbWagon = 0;
         for (CouleurWagon carte : cartesWagonVisibles) {
             if(carte==CouleurWagon.LOCOMOTIVE) {
@@ -441,7 +442,7 @@ public class Jeu implements Runnable {
     public ArrayList<String> getNomVillesSansProprietaires(){
         ArrayList<String> resultat = new ArrayList<>();
         for (Ville ville : villes) {
-            if (ville.getProprietaire()!=null){
+            if (ville.getProprietaire()==null){
                 resultat.add(ville.getNom());
             }
         }
@@ -451,7 +452,7 @@ public class Jeu implements Runnable {
     public ArrayList<String> getNomRoutesSansProprietaires(){
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : routes) {
-            if (route.getProprietaire()!=null){
+            if (route.getProprietaire()==null){
                 resultat.add(route.getNom());
             }
         }
@@ -473,6 +474,8 @@ public class Jeu implements Runnable {
         }
         return resultat;
     }
+
+
 
 
 }

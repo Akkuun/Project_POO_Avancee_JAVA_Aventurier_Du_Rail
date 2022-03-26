@@ -235,7 +235,7 @@ public class Joueur {
      * @return liste des destinations qui n'ont pas été gardées par le joueur
      */
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
-        ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix  "choix_destination"
+        ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix "choix_destination"
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
 
         int nombreDeDestinationsRestantes = destinationsPossibles.size();
@@ -287,17 +287,26 @@ public class Joueur {
      * "construire une gare", "choisir les destinations à défausser", etc.)
      */
     public void jouerTour() {
+        toLog();
         ArrayList<String> choixBoutons = new ArrayList<>(List.of("destinations"));
-        ArrayList<String> choixHorsBoutons = new ArrayList<>(CouleurWagon.getAllCouleursString());
-        choixHorsBoutons.addAll(jeu.vileToString(jeu.getVilles()));
-        choixHorsBoutons.addAll(jeu.routeToString(jeu.getRoutes()));
+        ArrayList<String> choixHorsBoutons = new ArrayList<>();
+        for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
+            choixHorsBoutons.add(carte.name());
+        }
+        choixHorsBoutons.add("GRIS");
+        choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires());
+        choixHorsBoutons.addAll(jeu.getNomRoutesSansProprietaires());
         //on avait dit : on add au choix que les villes et les routes libres
 
-        String choix = choisir("choisir action", choixHorsBoutons, choixBoutons, true);
+        String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
 
         //il faudra lancer la fonction à condition qu'on ait choisi une couleur, ici c'est pour le test
-        choisirCarteWagon(choix);
-
+        if(CouleurWagon.getAllCouleursString().contains(choix)) {
+            choisirCarteWagon(choix);
+        } else if (jeu.getNomRoutesSansProprietaires().contains(choix)){
+                construireRoute(choix);
+        }
+        log("\n\n\n\n\n\n\n\n\n\n\n");
     }
 
     public void addCarteWagon(ArrayList<CouleurWagon> cartesAPiocher) {
@@ -310,7 +319,6 @@ public class Joueur {
     public void choisirCarteWagon(String choix) {
         int nbCartesPiochees = 0;
         while (nbCartesPiochees < 2 && !choix.equals("")) {
-            log("choix : " + choix + "\n");
             if (choix.equals("GRIS")) { //on clique sur la pioche
                 CouleurWagon carte = jeu.piocherCarteWagon();
                 if (carte != null) {
@@ -322,22 +330,62 @@ public class Joueur {
                     jeu.retirerCarteWagonVisible(CouleurWagon.LOCOMOTIVE);
                     cartesWagon.add(CouleurWagon.LOCOMOTIVE);
                     break;
+                }else{
+                    log("Vous ne pouvez pas prendre un wagon !\n choisissez une autre carte");
                 }
             } else { //on clique sur une carte visible hors locomotive
-                for (CouleurWagon couleur : CouleurWagon.getCouleursSimples()) {
-                    if (choix.equals(couleur.name())) {
-                        jeu.retirerCarteWagonVisible(couleur);
-                        cartesWagon.add(couleur);
+                        cartesWagon.add(CouleurWagon.stringToCouleurWagon(choix));
+                        jeu.retirerCarteWagonVisible(CouleurWagon.stringToCouleurWagon(choix));
                         nbCartesPiochees++;
-                    }
                 }
-            }
             if (nbCartesPiochees < 2) {
-                ArrayList<String> choixHorsBoutons = new ArrayList<>(CouleurWagon.getAllCouleursString());
+                ArrayList<String> choixHorsBoutons = new ArrayList<>();
+                for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
+                    choixHorsBoutons.add(carte.name());
+                }
+                choixHorsBoutons.add("GRIS");
                 choix = choisir("choisissez une autre carte wagon ou piochez", choixHorsBoutons, new ArrayList<>(), true);
             }
         }
-        log("fin du tour");
     }
+
+
+    public void construireRoute(String choix){
+        Route routeChoisi = null;
+        for (Route route : jeu.getRoutes()) {
+            if(route.getNom().equals(choix)){
+                routeChoisi = route;
+            }
+        }
+        if(!routeChoisi.construireRoute(this)){
+            annulerCaptureRoute();
+            jouerTour(); //si on n'as pas pu construire la route (manque de cartes) on rejoue
+        }else {
+            routeChoisi.setProprietaire(this);
+            confirmerCaptureRoute();
+        }
+    }
+
+    public boolean utiliserCarterWagon(CouleurWagon couleur){
+        if (cartesWagon.contains(couleur)) {
+            cartesWagon.remove(couleur);
+            cartesWagonPosees.add(couleur);
+            return true;
+        }
+        return false;
+    }
+
+    public void annulerCaptureRoute(){
+        cartesWagon.addAll(cartesWagonPosees);
+        cartesWagonPosees.clear();
+    }
+
+    public void confirmerCaptureRoute(){
+        for (CouleurWagon carte : cartesWagonPosees) {
+            jeu.defausserCarteWagon(carte);
+        }
+        cartesWagonPosees.clear();
+    }
+
 
 }

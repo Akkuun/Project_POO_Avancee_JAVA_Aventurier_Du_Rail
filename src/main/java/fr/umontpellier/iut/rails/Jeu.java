@@ -160,50 +160,25 @@ public class Jeu implements Runnable {
 //            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
 //            joueurCourant.choisirDestinations(destinationsPossibles,2);
 //        }
-
-        while (true) {
+        boolean dernierTour = false;
+        boolean jeuFini = false;
+        while (!jeuFini) {
             for (Joueur joueur : joueurs) {
-                log.clear();
-                joueurCourant = joueur;
-                joueurCourant.jouerTour();
+                if (!jeuFini) {
+                    log.clear();
+                    if (dernierTour) log("* Dernier Tour ! *");
+                    joueurCourant = joueur;
+                    if (joueurCourant.getNbWagons() <= 2) {
+                        jeuFini = true;
+                    }
+                    joueurCourant.jouerTour();
+                    if (joueurCourant.getNbWagons() <= 2) {
+                        dernierTour = true;
+                    }
+                }
             }
-
-
-            // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
-            // les choix possibles sont présentés sous forme de boutons cliquables
-            //          joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
-//            String choix = joueurCourant.choisir(
-//                    "Choisissez une taille de route.", // instruction
-//                    new ArrayList<>(), // choix (hors boutons, ici aucun)
-//                    new ArrayList<>(Arrays.asList("mettre trois loco", "prendre blanc")), // boutons
-//                    false); // le joueur ne peut pas passer (il doit faire un choix)
-
-            // une fois la longueur choisie, on filtre les routes pour ne garder que les
-            // routes de la longueur choisie
-//            if(choix.equals("prendre blanc")){retirerCarteWagonVisible(CouleurWagon.BLANC); defausserCarteWagon(CouleurWagon.BLANC);}
-//            if(choix.equals("mettre trois loco")){mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible();}
-//            int longueurRoute = Integer.parseInt(choix);
-//            ArrayList<String> routesPossibles = new ArrayList<>();
-//            for (Route route : routes) {
-//                if (route.getLongueur() == longueurRoute) {
-//                    routesPossibles.add(route.getNom());
-//                }
-//            }
-
-            // le joueur doit maintenant choisir une route de la longueur choisie (les
-            // autres ne sont pas acceptées). Le joueur peut choisir de passer (aucun choix)
-//            String choixRoute = joueurCourant.choisir(
-//                    "Choisissez une route de longueur " + longueurRoute, // instruction
-//                    routesPossibles, // choix (pas des boutons, il faut cliquer sur la carte)
-//                    new ArrayList<>(), // boutons (ici aucun bouton créé)
-//                    true); // le joueur peut passer sans faire de choix
-//            if (choixRoute.equals("")) {
-//                // le joueur n'a pas fait de choix (cliqué sur le bouton "passer")
-//                log("Auncune route n'a été choisie");
-//            } else {
-//                // le joueur a choisi une route
-//                log("Vous avez choisi la route " + choixRoute);
-//            }
+            log.clear();
+            log("fin du jeu !");
         }
     }
 

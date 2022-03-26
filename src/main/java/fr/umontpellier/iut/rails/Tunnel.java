@@ -16,11 +16,10 @@ public class Tunnel extends Route {
             joueur.log("vous tentez de capturer un tunnel\npiochons des cartes et laissons parler la chance");
             int nbCartesSupplementaire = 0;
             for (CouleurWagon carte : joueur.getJeu().piocher_n_Cartes_CarteWagon(3)) {//après avoir utilisé ses cartes normalement, on pioche trois cartes
-                joueur.log("carte pioché : " + carte.toString());
                 if (carte == getCouleurChoisie() || carte == CouleurWagon.LOCOMOTIVE) {
                     nbCartesSupplementaire++;
-                    joueur.log("   pas de chance !");
                 }
+                joueur.getJeu().defausserCarteWagon(carte);
             }
             Route verif = new Route(new Ville(""), new Ville(""), nbCartesSupplementaire, getCouleurChoisie());
             if (verif.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur)) {
@@ -48,8 +47,9 @@ public class Tunnel extends Route {
     @Override
     public void construireRoute(Joueur joueur) {
         if (prendreRoute(joueur)) {
-            joueur.confirmerCaptureRoute();
+            joueur.confirmerCaptureRoute(getLongueur());
             setProprietaire(joueur);
+            joueur.ajouterPoint(getNbPoints());
         } else {
             joueur.annulerCaptureRoute();
             if (!aCommenceAtirerLesCartes) {

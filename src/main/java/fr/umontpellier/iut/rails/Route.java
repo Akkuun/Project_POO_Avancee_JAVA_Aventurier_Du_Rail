@@ -177,11 +177,25 @@ public class Route {
 
     public void construireRoute(Joueur joueur) {
         if (prendreRoute(joueur)) {
-            joueur.confirmerCaptureRoute();
+            joueur.confirmerCaptureRoute(longueur);
             proprietaire = joueur;
+            joueur.ajouterPoint(getNbPoints());
         } else {
             joueur.annulerCaptureRoute();
             joueur.jouerTour();
         }
     }
+
+    public int getNbPoints() {
+        return switch (longueur) {
+            case 1 -> 1;
+            case 2 -> 2;
+            case 3 -> 4;
+            case 4 -> 7;
+            case 6 -> 15;
+            case 8 -> 21;
+            default -> 0;
+        };
+    }
+
 }

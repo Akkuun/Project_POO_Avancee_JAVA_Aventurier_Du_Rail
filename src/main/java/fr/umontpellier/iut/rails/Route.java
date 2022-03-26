@@ -104,7 +104,7 @@ public class Route {
     // vérifie que le joueur a assez de wagons
     //on demande de cliquer sur les cartes qu'il veut défausser, il peut toujours passer et ainsi on lui rends les éventuelles
     //cartes défaussés et on le laisse choisir autre chose.
-    public boolean construireRoute(Joueur joueur) {
+    public boolean prendreRoute(Joueur joueur) {
         if (joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur)) {
             joueur.log("Vous avez choisi de construire la route :\n"+getNom());
             int nbCartesQuilFautEncorePoser = longueur;
@@ -122,7 +122,7 @@ public class Route {
                     } else {//pour route pas grise on ne laisse pas le choix pour la couleur, mais on peut quand même commencer pas enlever une loco
                         couleurChoisie = couleur;
                         if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE)) choixHorsBoutons.add("LOCOMOTIVE");
-                        choixHorsBoutons.add(couleurChoisie.name());
+                        if (joueur.getCartesWagon().contains(couleurChoisie)) choixHorsBoutons.add(couleurChoisie.name());
                         choix = joueur.choisir("cliquez sur la carte " + couleurChoisie.toString() + " ou le joker que vous voulez défausser de votre main pour prendre cette route", choixHorsBoutons, new ArrayList<>(), true);
                         joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
                     }
@@ -135,7 +135,7 @@ public class Route {
                 }
                 nbCartesQuilFautEncorePoser--;
                 if (choix.equals("")) {
-                    joueur.log("Commencez par choisir une couleur si\nvous ne pouvez pas tout construire en locomotive");
+                    joueur.log("il faut choisir une couleur qui vous premette de finir la route");
                     return false;
                 }
             }
@@ -173,5 +173,15 @@ public class Route {
             }
         }
         return false;
+    }
+
+    public void construireRoute(Joueur joueur) {
+        if (prendreRoute(joueur)) {
+            joueur.confirmerCaptureRoute();
+            proprietaire = joueur;
+        } else {
+            joueur.annulerCaptureRoute();
+            joueur.jouerTour();
+        }
     }
 }

@@ -90,7 +90,7 @@ public class Jeu implements Runnable {
 
         //faire piocher les 4 cartes à tout les joueurs
 
-        for (Joueur joueur:joueurs) {
+        for (Joueur joueur : joueurs) {
             joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
 
         }
@@ -146,7 +146,7 @@ public class Jeu implements Runnable {
          * doit donc être entièrement réécrit.
 
 
-        /********************* TOUR 0 || Distribution des cartes destination ************************************/
+         /********************* TOUR 0 || Distribution des cartes destination ************************************/
 //        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
 //        Collections.shuffle(destinationsLongues);
 //
@@ -169,11 +169,9 @@ public class Jeu implements Runnable {
             }
 
 
-
-
             // le joueur doit choisir une valeur parmi "1", "2", "3", "4", "6" ou "8"
             // les choix possibles sont présentés sous forme de boutons cliquables
-  //          joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
+            //          joueurCourant.choisirDestinations(Destination.makeDestinationsLonguesEurope(),4);
 //            String choix = joueurCourant.choisir(
 //                    "Choisissez une taille de route.", // instruction
 //                    new ArrayList<>(), // choix (hors boutons, ici aucun)
@@ -222,7 +220,7 @@ public class Jeu implements Runnable {
         defausseCartesWagon.add(c);
         if (cartesWagonVisibles.size() < 5) {
             cartesWagonVisibles.add(c);
-            defausseCartesWagon.remove(defausseCartesWagon.size()-1);
+            defausseCartesWagon.remove(defausseCartesWagon.size() - 1);
         }
 
     }
@@ -237,8 +235,8 @@ public class Jeu implements Runnable {
      */
     public CouleurWagon piocherCarteWagon() {
 
-        if (pileCartesWagon.isEmpty()){
-            if(!defausseCartesWagon.isEmpty()) {
+        if (pileCartesWagon.isEmpty()) {
+            if (!defausseCartesWagon.isEmpty()) {
                 remelangerDefausse();
             } else {
                 return null;
@@ -247,17 +245,12 @@ public class Jeu implements Runnable {
         return pileCartesWagon.remove(0);
     }
 
-    public void remelangerDefausse(){
+    public void remelangerDefausse() {
+        pileCartesWagon.addAll(defausseCartesWagon);
+        defausseCartesWagon.clear();
 
-        int taille_defausse = defausseCartesWagon.size();
-        for (int i = 0; i < taille_defausse; i++) {
-            pileCartesWagon.add(defausseCartesWagon.remove(i));
-        }
         pileCartesWagon = melangerList(pileCartesWagon);
     }
-
-
-
 
 
     /**
@@ -266,10 +259,10 @@ public class Jeu implements Runnable {
      * (remise à 5, éventuellement remélangée si 3 locomotives visibles)
      */
     public void retirerCarteWagonVisible(CouleurWagon c) {
-        if(cartesWagonVisibles.remove(c)){
+        if (cartesWagonVisibles.remove(c)) {
             cartesWagonVisibles.add(piocherCarteWagon());
 
-            while (!moinsDeTroisCartesLocomotiveVisibles()){
+            while (!moinsDeTroisCartesLocomotiveVisibles()) {
                 for (CouleurWagon carte : cartesWagonVisibles) {
                     defausserCarteWagon(carte);
                 }
@@ -279,14 +272,14 @@ public class Jeu implements Runnable {
         }
     }
 
-    public boolean moinsDeTroisCartesLocomotiveVisibles(){
+    public boolean moinsDeTroisCartesLocomotiveVisibles() {
         int nbWagon = 0;
         for (CouleurWagon carte : cartesWagonVisibles) {
-            if(carte==CouleurWagon.LOCOMOTIVE) {
+            if (carte == CouleurWagon.LOCOMOTIVE) {
                 nbWagon++;
             }
         }
-        return nbWagon<3;
+        return nbWagon < 3;
     }
 
     /**
@@ -296,7 +289,7 @@ public class Jeu implements Runnable {
      * disponible)
      */
     public Destination piocherDestination() {
-        return pileDestinations.isEmpty() ?  null :  pileDestinations.remove(pileDestinations.size()-1);
+        return pileDestinations.isEmpty() ? null : pileDestinations.remove(pileDestinations.size() - 1);
     }
 
     public List<Joueur> getJoueurs() {
@@ -418,18 +411,17 @@ public class Jeu implements Runnable {
     }
 
 
-
-        public ArrayList<CouleurWagon> piocher_n_Cartes_CarteWagon(int nombre_de_cartes){
-            ArrayList<CouleurWagon> cartes = new ArrayList<>();
-            for (int i = 0; i < nombre_de_cartes; i++) {
-                cartes.add(piocherCarteWagon());
-            }
-            return cartes;
+    public ArrayList<CouleurWagon> piocher_n_Cartes_CarteWagon(int nombre_de_cartes) {
+        ArrayList<CouleurWagon> cartes = new ArrayList<>();
+        for (int i = 0; i < nombre_de_cartes; i++) {
+            cartes.add(piocherCarteWagon());
+        }
+        return cartes;
     }
 
 
     //pour test retirerCarteWagonVisible
-    public void mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible(){
+    public void mettreTroisCarteVagonEtUneBlancheDansPileCarteVisible() {
         cartesWagonVisibles.clear();
         cartesWagonVisibles.add(CouleurWagon.LOCOMOTIVE);
         cartesWagonVisibles.add(CouleurWagon.LOCOMOTIVE);
@@ -439,43 +431,41 @@ public class Jeu implements Runnable {
 
     }
 
-    public ArrayList<String> getNomVillesSansProprietaires(){
+    public ArrayList<String> getNomVillesSansProprietaires() {
         ArrayList<String> resultat = new ArrayList<>();
         for (Ville ville : villes) {
-            if (ville.getProprietaire()==null){
+            if (ville.getProprietaire() == null) {
                 resultat.add(ville.getNom());
             }
         }
         return resultat;
     }
 
-    public ArrayList<String> getNomRoutesSansProprietaires(){
+    public ArrayList<String> getNomRoutesSansProprietaires() {
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : routes) {
-            if (route.getProprietaire()==null){
+            if (route.getProprietaire() == null) {
                 resultat.add(route.getNom());
             }
         }
         return resultat;
     }
 
-    public ArrayList<String> routeToString(List<Route> routes){
+    public ArrayList<String> routeToString(List<Route> routes) {
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : routes) {
-                resultat.add(route.getNom());
+            resultat.add(route.getNom());
         }
         return resultat;
     }
 
-    public ArrayList<String> vileToString(List<Ville> villes){
+    public ArrayList<String> vileToString(List<Ville> villes) {
         ArrayList<String> resultat = new ArrayList<>();
         for (Ville ville : villes) {
             resultat.add(ville.getNom());
         }
         return resultat;
     }
-
-
 
 
 }

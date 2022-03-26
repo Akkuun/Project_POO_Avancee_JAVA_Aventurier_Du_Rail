@@ -290,17 +290,17 @@ public class Joueur {
         toLog();
         ArrayList<String> choixBoutons = new ArrayList<>(List.of("destinations"));
         ArrayList<String> choixHorsBoutons = new ArrayList<>();
-        for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
-            choixHorsBoutons.add(carte.name());
+        if(!jeu.getCartesWagonVisibles().isEmpty()) {
+            for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
+                choixHorsBoutons.add(carte.name());
+            }
         }
-        choixHorsBoutons.add("GRIS");
-        choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires());
-        choixHorsBoutons.addAll(jeu.getNomRoutesSansProprietaires());
-        //on avait dit : on add au choix que les villes et les routes libres
+            choixHorsBoutons.add("GRIS");
+            choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires());
+            choixHorsBoutons.addAll(jeu.getNomRoutesSansProprietaires());
 
         String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
 
-        //il faudra lancer la fonction à condition qu'on ait choisi une couleur, ici c'est pour le test
         if(CouleurWagon.getAllCouleursString().contains(choix)) {
             choisirCarteWagon(choix);
         } else if (jeu.getNomRoutesSansProprietaires().contains(choix)){
@@ -331,7 +331,7 @@ public class Joueur {
                     cartesWagon.add(CouleurWagon.LOCOMOTIVE);
                     break;
                 }else{
-                    log("Vous ne pouvez pas prendre un wagon !\n choisissez une autre carte");
+                    log("Vous ne pouvez pas prendre un joker !\n choisissez une autre carte");
                 }
             } else { //on clique sur une carte visible hors locomotive
                         cartesWagon.add(CouleurWagon.stringToCouleurWagon(choix));
@@ -357,13 +357,7 @@ public class Joueur {
                 routeChoisi = route;
             }
         }
-        if(!routeChoisi.construireRoute(this)){
-            annulerCaptureRoute();
-            jouerTour(); //si on n'as pas pu construire la route (manque de cartes) on rejoue
-        }else {
-            routeChoisi.setProprietaire(this);
-            confirmerCaptureRoute();
-        }
+       routeChoisi.construireRoute(this);
     }
 
     public boolean utiliserCarterWagon(CouleurWagon couleur){

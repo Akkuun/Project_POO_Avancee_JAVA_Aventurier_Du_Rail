@@ -247,7 +247,7 @@ public class Joueur {
                 boutons_cartes_destinations.add(carte.getNom());
             }
 
-            String choix = choisir("Deffaussez les destinations dont vous ne voulez pas",
+            String choix = choisir("Deffaussez les destinations dont vous ne voulez pas, appuyez sur \"passer\" pour garder celles qui sont affichés",
                     new ArrayList<>(),
                     boutons_cartes_destinations,
                     true); //affichage de tout les boutons
@@ -293,7 +293,7 @@ public class Joueur {
         ArrayList<String> choixHorsBoutons = new ArrayList<>();
         if(!jeu.getCartesWagonVisibles().isEmpty()) {
             for (CouleurWagon carte : jeu.getCartesWagonVisibles()) {
-                choixHorsBoutons.add(carte.name());
+                if (carte != null){choixHorsBoutons.add(carte.name());}
             }
         }
             choixHorsBoutons.add("GRIS");

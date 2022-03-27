@@ -236,8 +236,9 @@ public class Jeu implements Runnable {
     public void retirerCarteWagonVisible(CouleurWagon c) {
         if (cartesWagonVisibles.remove(c)) {
             cartesWagonVisibles.add(piocherCarteWagon());
+            while (cartesWagonVisibles.remove(null)){}
 
-            while (!moinsDeTroisCartesLocomotiveVisibles()) {
+            for (int i=0; i<10 && !moinsDeTroisCartesLocomotiveVisibles(); i++) {
                 for (CouleurWagon carte : cartesWagonVisibles) {
                     defausserCarteWagon(carte);
                 }
@@ -248,13 +249,13 @@ public class Jeu implements Runnable {
     }
 
     public boolean moinsDeTroisCartesLocomotiveVisibles() {
-        int nbWagon = 0;
+        int nbLocomotives = 0;
         for (CouleurWagon carte : cartesWagonVisibles) {
             if (carte == CouleurWagon.LOCOMOTIVE) {
-                nbWagon++;
+                nbLocomotives++;
             }
         }
-        return nbWagon < 3;
+        return nbLocomotives < 3;
     }
 
     /**

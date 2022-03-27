@@ -12,15 +12,19 @@ public class Tunnel extends Route {
     @Override
     public boolean prendreRoute(Joueur joueur) {
         if (super.prendreRoute(joueur)) {
+            joueur.log("truc de base ok");
             aCommenceAtirerLesCartes = true;
             joueur.log("vous tentez de capturer un tunnel\npiochons des cartes et laissons parler la chance");
             int nbCartesSupplementaire = 0;
-            for (CouleurWagon carte : joueur.getJeu().piocher_n_Cartes_CarteWagon(3)) {//après avoir utilisé ses cartes normalement, on pioche trois cartes
+            joueur.getJeu().remelangerDefausse();
+            int nbCarteAPiocher = joueur.getJeu().getPileCartesWagon().size();
+            for (CouleurWagon carte : joueur.getJeu().piocher_n_Cartes_CarteWagon(Math.min(nbCarteAPiocher, 3))) {//après avoir utilisé ses cartes normalement, on pioche trois cartes
                 if (carte == getCouleurChoisie() || carte == CouleurWagon.LOCOMOTIVE) {
                     nbCartesSupplementaire++;
                 }
                 joueur.getJeu().defausserCarteWagon(carte);
             }
+            joueur.log("boucle de pioche ok");
             Route verif = new Route(new Ville(""), new Ville(""), nbCartesSupplementaire, getCouleurChoisie());
             if (verif.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur)) {
                 while (nbCartesSupplementaire > 0) {
@@ -48,8 +52,8 @@ public class Tunnel extends Route {
     public void construireRoute(Joueur joueur) {
         if (prendreRoute(joueur)) {
             joueur.confirmerCaptureRoute(getLongueur());
-            setProprietaire(joueur);
             joueur.ajouterPoint(getNbPoints());
+            setProprietaire(joueur);
         } else {
             joueur.annulerCaptureRoute();
             if (!aCommenceAtirerLesCartes) {

@@ -453,7 +453,7 @@ public class Jeu implements Runnable {
 
 
     public List<CouleurWagon> getDefausseCartesWagon() {
-        return getDefausseCartesWagon();
+      return   defausseCartesWagon;
     }
 
     public List<Destination> getPileDestinations() {

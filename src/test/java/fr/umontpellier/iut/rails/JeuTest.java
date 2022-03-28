@@ -67,16 +67,11 @@ class JeuTest {
     @Test
     public void carte_pioché_est_la_dernière_carte(){
         Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
-        CouleurWagon carte_haut_de_pile = jeu.getPileCartesWagon().get(jeu.getPileCartesWagon().size()-1);
+        CouleurWagon carte_haut_de_pile = jeu.getPileCartesWagon().get(0);
         CouleurWagon carte_pioche = jeu.piocherCarteWagon();
         assertEquals(carte_haut_de_pile, carte_pioche);
     }
 
-    @Disabled
-    @Test
-    public void piocherCarteWagon_fonctionne_si_pile_vide_et_defausse_non_vide_et_remelange_la_defausse(){
-
-    }
 
     @Test
     public void retirerCarteWagonVisible_remelange_les_cartes_si_trois_vagons(){

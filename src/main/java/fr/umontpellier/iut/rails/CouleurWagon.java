@@ -8,6 +8,14 @@ import java.util.*;
 public enum CouleurWagon {
     NOIR, BLANC, JAUNE, ROUGE, ORANGE, BLEU, VERT, ROSE, GRIS, LOCOMOTIVE;
 
+    public static CouleurWagon stringToCouleurWagon(String choix) {
+        for (CouleurWagon couleur : getCouleursSimples()) {
+            if(choix.equals(couleur.name())){return couleur;}
+        }
+        if(choix.equals("LOCOMOTIVE")){return LOCOMOTIVE;}
+        return null;
+    }
+
     @Override
     public String toString() {
         return switch (this) {

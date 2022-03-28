@@ -38,10 +38,10 @@ public enum CouleurWagon {
     public static ArrayList<String> getAllCouleursString() {
         ArrayList<String> result = new ArrayList<>();
         for (CouleurWagon couleur : getCouleursSimples()) {
-            result.add(couleur.toString());
+            result.add(couleur.name());
         }
-        result.add("Gris");
-        result.add("Locomotive");
+        result.add("GRIS");
+        result.add("LOCOMOTIVE");
         return result;
     }
 

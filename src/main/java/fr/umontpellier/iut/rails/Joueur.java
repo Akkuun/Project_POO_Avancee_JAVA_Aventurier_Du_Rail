@@ -237,6 +237,7 @@ public class Joueur {
     public List<Destination> choisirDestinations(List<Destination> destinationsPossibles, int n) {
         ArrayList<Destination> destinationsDefaussees = new ArrayList<>(); //création du choix  "choix_destination"
         ArrayList<String> boutons_cartes_destinations = new ArrayList<>(); //création d'un bouton pour chaque carte destination
+
         int nombreDeDestinationsRestantes = destinationsPossibles.size();
 
         while (nombreDeDestinationsRestantes > n) {
@@ -250,21 +251,20 @@ public class Joueur {
                     boutons_cartes_destinations,
                     true); //affichage de tout les boutons
 
+
             if (!choix.equals("")) {
                 Destination choisi = Destination.getDestinationAvecNom(choix, destinationsPossibles);
                 destinationsDefaussees.add(choisi);
                 destinationsPossibles.remove(choisi);
                 nombreDeDestinationsRestantes--;
-            }
-            else{
+            } else {
                 destinations.addAll(destinationsPossibles);
                 return destinationsDefaussees;
             }
         }
         destinations.addAll(destinationsPossibles);
-        return  destinationsDefaussees;
+        return destinationsDefaussees;
     }
-
 
 
 
@@ -288,20 +288,59 @@ public class Joueur {
      * "construire une gare", "choisir les destinations à défausser", etc.)
      */
     public void jouerTour() {
+        ArrayList<String> choixBoutons = new ArrayList<>(List.of("destinations"));
+        ArrayList<String> choixHorsBoutons = new ArrayList<>(CouleurWagon.getAllCouleursString());
+        choixHorsBoutons.addAll(jeu.vileToString(jeu.getVilles()));
+        choixHorsBoutons.addAll(jeu.routeToString(jeu.getRoutes()));
+        //on avait dit : on add au choix que les villes et les routes libres
+
+        String choix = choisir("choisir action", choixHorsBoutons, choixBoutons, true);
+
+        //il faudra lancer la fonction à condition qu'on ait choisi une couleur, ici c'est pour le test
+        choisirCarteWagon(choix);
 
 
 
     }
 
     public void addCarteWagon(ArrayList<CouleurWagon> cartesAPiocher) {
-        for (CouleurWagon carte : cartesAPiocher) {
-            cartesWagon.add(carte);
+        cartesWagon.addAll(cartesAPiocher);
+    }
+
+    //prérequis : le joueur à cliqué sur une CouleurWagon (pioche ou visible)
+    //si le joueur pioche ou tire une carte visible, il doit soit en prendre une autre soit passer son tour.
+    //quand la fonction se termine, le joueur à fini son tour.
+    public void choisirCarteWagon(String choix) {
+        int nbCartesPiochees = 0;
+        while (nbCartesPiochees < 2 && !choix.equals("")) {
+            log("choix : " + choix + "\n");
+            if (choix.equals("GRIS")) { //on clique sur la pioche
+                CouleurWagon carte = jeu.piocherCarteWagon();
+                if (carte != null) {
+                    cartesWagon.add(carte);
+                    nbCartesPiochees++;
+                }
+            } else if (choix.equals("LOCOMOTIVE")) {
+                if (nbCartesPiochees == 0) {
+                    jeu.retirerCarteWagonVisible(CouleurWagon.LOCOMOTIVE);
+                    cartesWagon.add(CouleurWagon.LOCOMOTIVE);
+                    break;
+                }
+            } else { //on clique sur une carte visible hors locomotive
+                for (CouleurWagon couleur : CouleurWagon.getCouleursSimples()) {
+                    if (choix.equals(couleur.name())) {
+                        jeu.retirerCarteWagonVisible(couleur);
+                        cartesWagon.add(couleur);
+                        nbCartesPiochees++;
+                    }
+                }
+            }
+            if (nbCartesPiochees < 2) {
+                ArrayList<String> choixHorsBoutons = new ArrayList<>(CouleurWagon.getAllCouleursString());
+                choix = choisir("choisissez une autre carte wagon ou piochez", choixHorsBoutons, new ArrayList<>(), true);
+            }
         }
+        log("fin du tour");
     }
-
-    public void addDestination(Destination destination) {
-        destinations.add(destination);
-    }
-
 
 }

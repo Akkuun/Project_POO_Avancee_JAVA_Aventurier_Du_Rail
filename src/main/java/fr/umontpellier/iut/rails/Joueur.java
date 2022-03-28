@@ -406,4 +406,11 @@ public class Joueur {
         score += nbPoints;
     }
 
+    public boolean possede_n_fois_couleur_plus_loco(int n, CouleurWagon couleur){
+        if(couleur==CouleurWagon.LOCOMOTIVE){return Collections.frequency(cartesWagon, couleur)>=n;}
+        else{
+            return Collections.frequency(cartesWagon, couleur) + Collections.frequency(cartesWagon, CouleurWagon.LOCOMOTIVE)>=n;
+        }
+    }
+
 }

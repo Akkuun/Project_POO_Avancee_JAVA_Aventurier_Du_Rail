@@ -113,9 +113,11 @@ public class Route {
                 ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
                 if (nbCartesQuilFautEncorePoser == longueur) {//premier tour pour définir : couleurChoisie
                     if (couleur == CouleurWagon.GRIS) {//pour route grise la première carte prise défini celles qu'on pourra prendre ensuite : couleurChoisie
-                        for (CouleurWagon carte : joueur.getCartesWagon()) {
-                            choixHorsBoutons.add(carte.name());
+                        for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
+                           if(joueur.possede_n_fois_couleur_plus_loco(longueur, couleur)){choixHorsBoutons.add(carte.name());}
                         }
+                        if(joueur.possede_n_fois_couleur_plus_loco(longueur, CouleurWagon.LOCOMOTIVE)){choixHorsBoutons.add("LOCOMOTIVE");}
+
                         choix = joueur.choisir("cliquez sur une de vos cartes, vous devrez ensuite construire cette route avec les mêmes cartes ou des locomotives", choixHorsBoutons, new ArrayList<>(), true);
                         couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
                         joueur.utiliserCarterWagon(couleurChoisie);

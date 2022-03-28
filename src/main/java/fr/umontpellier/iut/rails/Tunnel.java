@@ -16,8 +16,8 @@ public class Tunnel extends Route {
             aCommenceAtirerLesCartes = true;
             joueur.log("vous tentez de capturer un tunnel\npiochons des cartes et laissons parler la chance");
             int nbCartesSupplementaire = 0;
-            joueur.getJeu().remelangerDefausse();
-            int nbCarteAPiocher = joueur.getJeu().getPileCartesWagon().size();
+
+            int nbCarteAPiocher = joueur.getJeu().getPileCartesWagon().size()+joueur.getJeu().getDefausseCartesWagon().size();
             for (CouleurWagon carte : joueur.getJeu().piocher_n_Cartes_CarteWagon(Math.min(nbCarteAPiocher, 3))) {//après avoir utilisé ses cartes normalement, on pioche trois cartes
                 if (carte == getCouleurChoisie() || carte == CouleurWagon.LOCOMOTIVE) {
                     nbCartesSupplementaire++;

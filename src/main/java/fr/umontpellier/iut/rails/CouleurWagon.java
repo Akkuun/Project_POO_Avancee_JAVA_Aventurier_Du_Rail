@@ -43,6 +43,7 @@ public enum CouleurWagon {
         return new ArrayList<>(List.of(NOIR, BLANC, JAUNE, ROUGE, ORANGE, BLEU, VERT, ROSE));
     }
 
+
     public static ArrayList<String> getAllCouleursString() {
         ArrayList<String> result = new ArrayList<>();
         for (CouleurWagon couleur : getCouleursSimples()) {
@@ -52,6 +53,8 @@ public enum CouleurWagon {
         result.add("LOCOMOTIVE");
         return result;
     }
+
+
 
     /**
      * Renvoie la représentation sous forme d'une chaîne de caractères d'une liste
@@ -91,5 +94,8 @@ public enum CouleurWagon {
         }
         return joiner.toString();
     }
+
+
+
 
 }

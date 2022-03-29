@@ -459,4 +459,12 @@ public class Jeu implements Runnable {
     public List<Destination> getPileDestinations() {
         return pileDestinations;
     }
+
+    public Ville getVilleFromChoix(String choix){
+        Ville ville= new Ville("");
+        for (int i=0;i<villes.size();i++){
+            if (Objects.equals(villes.get(i).getNom(), choix)) ville=villes.get(i);
+        }
+        return ville;
+    }
 }

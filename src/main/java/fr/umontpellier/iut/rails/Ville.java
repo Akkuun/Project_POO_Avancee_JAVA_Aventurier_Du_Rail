@@ -12,6 +12,7 @@ public class Ville {
      */
     private Joueur proprietaire;
 
+
     public Ville(String nom) {
         this.nom = nom;
     }
@@ -19,15 +20,15 @@ public class Ville {
     public String getNom() {
         return nom;
     }
-    
+
     public Joueur getProprietaire() {
         return proprietaire;
     }
-    
+
     public void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
     }
-    
+
     @Override
     public String toString() {
         return nom;
@@ -42,7 +43,19 @@ public class Ville {
         data.put("nom", nom);
         if (proprietaire != null) {
             data.put("proprietaire", proprietaire.getCouleur());
-        }    
+        }
         return data;
-    }    
+    }
+
+    public void construireGare(Joueur joueur) {
+        //jeu.getVilleFromChoix(choixCarte).setProprietaire(jeu.getJoueurCourant());
+        setProprietaire(joueur);
+        joueur.setNbGares(joueur.getNbGares()-1);
+        joueur.ajouterPoint(-4); //on lui enlève les points de la gare qui n'est plus stocké
+
+    }
+
+
+
+
 }

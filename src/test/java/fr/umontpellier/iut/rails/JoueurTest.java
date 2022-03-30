@@ -30,7 +30,7 @@ public class JoueurTest {
         joueur4.getCartesWagon().clear();
     }
 
-    @Disabled
+
     @Test
     void testChoisirDestinations() {
         jeu.setInput("Athina - Angora (5)", "Frankfurt - Kobenhavn (5)");
@@ -53,7 +53,7 @@ public class JoueurTest {
         assertTrue(joueur1.getDestinations().contains(d4));
     }
 
-    @Disabled
+
     @Test
     void testJouerTourPrendreCartesWagon() {
         jeu.setInput("GRIS", "ROUGE");
@@ -89,6 +89,13 @@ public class JoueurTest {
                 CouleurWagon.ROUGE,
                 CouleurWagon.ROUGE));
         assertEquals(nbCartesWagon - 2, pileCartesWagon.size());
+    }
+
+    @Disabled
+    @Test
+    test_fin_de_partie(){
+        joueur2.setNbWagon(3);
+        jeu.setInput();
     }
 
 

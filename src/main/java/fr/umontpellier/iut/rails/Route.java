@@ -30,7 +30,7 @@ public class Route {
      */
     private String nom;
     //permet de savoir pour les classes filles quelle couleur est choisie ! pour les non grises c'est forcément = à couleur
-    private CouleurWagon couleurChoisie;
+    private CouleurWagon couleurChoisie = null;
 
     public Route(Ville ville1, Ville ville2, int longueur, CouleurWagon couleur) {
         this.ville1 = ville1;
@@ -109,39 +109,43 @@ public class Route {
             joueur.log("Vous avez choisi de construire la route :\n"+getNom());
             int nbCartesQuilFautEncorePoser = longueur;
             String choix = "initialisation";
+            String consigne;
+            if(couleur != CouleurWagon.GRIS){couleurChoisie = couleur;}
             while (nbCartesQuilFautEncorePoser > 0) {
                 ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
-                if (nbCartesQuilFautEncorePoser == longueur) {//premier tour pour définir : couleurChoisie
-                    if (couleur == CouleurWagon.GRIS) {//pour route grise la première carte prise défini celles qu'on pourra prendre ensuite : couleurChoisie
-                        for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
-                           if(joueur.possede_n_fois_couleur_plus_loco(longueur, couleur)){choixHorsBoutons.add(carte.name());}
+                if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
+                    choixHorsBoutons.add("LOCOMOTIVE");// du moment qu'il en à une il peut jouer des loco
+                if (couleurChoisie == null) {//pour route grise
+                    consigne = "choisissez une carte";
+                    for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
+                        if (joueur.possede_n_fois_couleur_plus_loco(longueur, carte)) {
+                            choixHorsBoutons.add(carte.name());
                         }
-                        if(joueur.possede_n_fois_couleur_plus_loco(longueur, CouleurWagon.LOCOMOTIVE)){choixHorsBoutons.add("LOCOMOTIVE");}
-
-                        choix = joueur.choisir("cliquez sur une de vos cartes, vous devrez ensuite construire cette route avec les mêmes cartes ou des locomotives", choixHorsBoutons, new ArrayList<>(), true);
-                        couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
-                        joueur.utiliserCarterWagon(couleurChoisie);
-                    } else {//pour route pas grise on ne laisse pas le choix pour la couleur, mais on peut quand même commencer pas enlever une loco
-                        couleurChoisie = couleur;
-                        if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE)) choixHorsBoutons.add("LOCOMOTIVE");
-                        if (joueur.getCartesWagon().contains(couleurChoisie)) choixHorsBoutons.add(couleurChoisie.name());
-                        choix = joueur.choisir("cliquez sur la carte " + couleurChoisie.toString() + " ou le joker que vous voulez défausser de votre main pour prendre cette route", choixHorsBoutons, new ArrayList<>(), true);
-                        joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
                     }
-                } else {//pour les autres portions de la route on à plus que le choix entre la couleur choisie et le joker
-                    if (joueur.getCartesWagon().contains(couleurChoisie)) choixHorsBoutons.add(couleurChoisie.name());
-                    if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE)) choixHorsBoutons.add("LOCOMOTIVE");
-
-                    choix = joueur.choisir("cliquez sur la carte " + couleurChoisie.toString() + " ou le joker que vous voulez défausser de votre main pour prendre cette route", choixHorsBoutons, new ArrayList<>(), true);
-                    joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
+                } else { //pour les routes colorées ou les grises une fois qu'on à fait un choix
+                    consigne = "choisissez une Locomotive ou une carte " + couleurChoisie;
+                    if (joueur.getCartesWagon().contains(couleurChoisie)) {
+                        choixHorsBoutons.add(couleurChoisie.name());
+                    }
                 }
-                nbCartesQuilFautEncorePoser--;
+
+                choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
+
                 if (choix.equals("")) {
-                    joueur.log("il faut choisir une couleur qui vous premette de finir la route");
-                    return false;
+                    break;
+                } else {
+                    if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
+                        couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
+                    }
+                    joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
+                    nbCartesQuilFautEncorePoser --;
                 }
             }
-        return true;
+                if (choix.equals("")) {
+                    joueur.log("vous avez abandonné la construction\nde la route "+nom+"\nchoisissez une autre action");
+                    return false;
+                }
+            return true;
     }
         return false;
 }

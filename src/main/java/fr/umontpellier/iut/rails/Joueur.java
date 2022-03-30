@@ -9,6 +9,10 @@ public class Joueur {
         return nbGares;
     }
 
+    public void setNbWagon(int i) {
+        nbWagons = i;
+    }
+
     /**
      * Les couleurs possibles pour les joueurs (pour l'interface graphique)
      */
@@ -303,7 +307,7 @@ public class Joueur {
                 }
             }
         }
-        choixHorsBoutons.add("GRIS");
+        if(!jeu.getPileCartesWagon().isEmpty() || !jeu.getDefausseCartesWagon().isEmpty()) {choixHorsBoutons.add("GRIS");}
         if (peutConstruireGare()) {
             choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires()); //on lui laisse pas le choix si il ne peut pas construire de gare
         }

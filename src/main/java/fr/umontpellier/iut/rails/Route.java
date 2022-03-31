@@ -105,7 +105,6 @@ public class Route {
     //on demande de cliquer sur les cartes qu'il veut défausser, il peut toujours passer et ainsi on lui rends les éventuelles
     //cartes défaussés et on le laisse choisir autre chose.
     public boolean prendreRoute(Joueur joueur) {
-        if (joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur)) {
             joueur.log("Vous avez choisi de construire la route :\n"+getNom());
             int nbCartesQuilFautEncorePoser = longueur;
             String choix = "initialisation";
@@ -146,8 +145,6 @@ public class Route {
                     return false;
                 }
             return true;
-    }
-        return false;
 }
 
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
@@ -202,6 +199,10 @@ public class Route {
             case 8 -> 21;
             default -> 0;
         };
+    }
+
+    public void setLongueur(int t){
+        longueur = t;
     }
 
 }

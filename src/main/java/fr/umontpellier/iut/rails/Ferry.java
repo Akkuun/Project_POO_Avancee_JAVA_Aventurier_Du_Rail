@@ -1,5 +1,7 @@
 package fr.umontpellier.iut.rails;
 
+import java.util.Collections;
+
 public class Ferry extends Route {
     /**
      * Nombre de locomotives qu'un joueur doit payer pour capturer le ferry
@@ -19,12 +21,7 @@ public class Ferry extends Route {
 
     @Override
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
-        int nbLocomotivesJoueur = 0;
-        for (CouleurWagon carte : joueur.getCartesWagon()) {
-            if (carte == CouleurWagon.LOCOMOTIVE) {
-                nbLocomotivesJoueur++;
-            }
-        }
+        int nbLocomotivesJoueur = Collections.frequency(joueur.getCartesWagon(), CouleurWagon.LOCOMOTIVE);
         if (nbLocomotivesJoueur < nbLocomotives) {
             joueur.log("vous n'avez pas assez de cartes Locomotives\nVous ne pouvez prendre ce ferry !");
         }
@@ -33,18 +30,10 @@ public class Ferry extends Route {
 
     @Override
     public boolean prendreRoute(Joueur joueur) {
-        if (super.prendreRoute(joueur)) {
-            int nbLocoPosees = 0;
-            for (CouleurWagon carte : joueur.getCartesWagonPosees()) {
-                if (carte == CouleurWagon.LOCOMOTIVE) {
-                    nbLocoPosees++;
-                }
-            }
-            if (nbLocoPosees >= nbLocomotives) {
-                return true;
-            }
-            joueur.log("vous devez utiliser au moins " + nbLocomotives + " jokers\npour prendre ce ferry !");
-        }
-        return false;
+        for (int i =0; i<nbLocomotives; i++){joueur.utiliserCarterWagon(CouleurWagon.LOCOMOTIVE);}
+        setLongueur(getLongueur() - nbLocomotives);
+        boolean routePrise = super.prendreRoute(joueur);
+        setLongueur(getLongueur() + nbLocomotives);
+        return routePrise;
     }
 }

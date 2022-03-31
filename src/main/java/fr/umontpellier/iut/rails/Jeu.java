@@ -421,17 +421,26 @@ public class Jeu implements Runnable {
         return resultat;
     }
 
-    public ArrayList<String> getNomRoutesSansProprietaires() {
-        ArrayList<String> resultat = new ArrayList<>();
+    public ArrayList<Route> getRoutesSansProprietaires() {
+        ArrayList<Route> resultat = new ArrayList<>();
         for (Route route : routes) {
             if (route.getProprietaire() == null) {
-                resultat.add(route.getNom());
+                resultat.add(route);
             }
         }
         return resultat;
     }
 
-    public ArrayList<String> routeToString(List<Route> routes) {
+    public ArrayList<String> getNomRoutesSansProprietaires() {
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Route route : getRoutesSansProprietaires()) {
+            resultat.add(route.getNom());
+        }
+        return resultat;
+    }
+
+
+        public ArrayList<String> routeToString(List<Route> routes) {
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : routes) {
             resultat.add(route.getNom());

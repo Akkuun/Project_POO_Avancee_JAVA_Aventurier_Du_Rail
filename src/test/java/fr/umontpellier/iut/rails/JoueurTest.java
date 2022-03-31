@@ -91,6 +91,9 @@ public class JoueurTest {
         assertEquals(nbCartesWagon - 2, pileCartesWagon.size());
     }
 
+    /** pour qu'il marche :
+    mettre nbWagon à 3 dans le constructeur joueur
+    commenter le "tour 0" où les joueurs choisissent les destinations **/
     @Disabled
     @Test
     public void test_fin_de_partie(){

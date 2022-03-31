@@ -13,6 +13,10 @@ public class Joueur {
         nbWagons = i;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     /**
      * Les couleurs possibles pour les joueurs (pour l'interface graphique)
      */
@@ -65,7 +69,7 @@ public class Joueur {
         this.jeu = jeu;
         this.couleur = couleur;
         nbGares = 3;
-        nbWagons = 3;
+        nbWagons = 45;
         cartesWagon = new ArrayList<>();
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
@@ -312,7 +316,7 @@ public class Joueur {
             choixHorsBoutons.addAll(jeu.getNomVillesSansProprietaires()); //on lui laisse pas le choix si il ne peut pas construire de gare
         }
 
-        choixHorsBoutons.addAll(jeu.getNomRoutesSansProprietaires());
+        choixHorsBoutons.addAll(nomRoutesPrenables());
         if (!jeu.pileDestinationIsEmpty()) {
             choixHorsBoutons.add("destinations");
             choixBoutons.add("destinations");
@@ -491,4 +495,15 @@ public class Joueur {
         }
         return false;
     }
+
+    public ArrayList<String> nomRoutesPrenables(){
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Route route : jeu.getRoutesSansProprietaires()) {
+            if(route.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(this)){
+                resultat.add(route.getNom());
+            }
+        }
+        return resultat;
+    }
+
 }

@@ -171,7 +171,6 @@ public class Jeu implements Runnable {
                     if (joueurCourant.getNbWagons() <= 2) {
                         jeuFini = true;
                     }
-                    log("pupupuuuuuu");
                     joueurCourant.jouerTour();
                     if (joueurCourant.getNbWagons() <= 2) {
                         dernierTour = true;

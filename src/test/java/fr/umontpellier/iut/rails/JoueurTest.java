@@ -93,9 +93,17 @@ public class JoueurTest {
 
     @Disabled
     @Test
-    test_fin_de_partie(){
+    public void test_fin_de_partie(){
         joueur2.setNbWagon(3);
-        jeu.setInput();
+        joueur2.getCartesWagon().clear();
+        joueur2.getCartesWagon().addAll(new ArrayList<CouleurWagon>(List.of(CouleurWagon.BLEU,CouleurWagon.BLEU)));
+        jeu.setInput("");//J1 passe son tour
+        jeu.addInputTest("Bruxelles - Frankfurt", "BLEU", "BLEU");//J2 prends une route et passe donc à 1wagon
+        jeu.addInputTest("","","");//J3,J4 et J1 passe son tour
+        jeu.addInputTest("GRIS","GRIS");//pour le tout dernier jouerTour(J2 pioche deux cartes)
+        jeu.run();
+        assertEquals(2, joueur2.getCartesWagon().size());//on verifie qu'il ait bien pu aller jusqu'au bout de son dernier tour
+
     }
 
 

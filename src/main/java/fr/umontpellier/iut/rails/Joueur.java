@@ -65,7 +65,7 @@ public class Joueur {
         this.jeu = jeu;
         this.couleur = couleur;
         nbGares = 3;
-        nbWagons = 45;
+        nbWagons = 3;
         cartesWagon = new ArrayList<>();
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();

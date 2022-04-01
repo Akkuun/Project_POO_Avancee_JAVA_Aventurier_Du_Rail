@@ -91,12 +91,13 @@ public class JoueurTest {
         assertEquals(nbCartesWagon - 2, pileCartesWagon.size());
     }
 
-    @Disabled
+
+  /*  @Disabled
     @Test
     test_fin_de_partie(){
         joueur2.setNbWagon(3);
         jeu.setInput();
-    }
+    }*/
 
 
 }

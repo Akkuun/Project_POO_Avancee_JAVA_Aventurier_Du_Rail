@@ -32,6 +32,8 @@ public class Route {
     //permet de savoir pour les classes filles quelle couleur est choisie ! pour les non grises c'est forcément = à couleur
     private CouleurWagon couleurChoisie = null;
 
+
+
     public Route(Ville ville1, Ville ville2, int longueur, CouleurWagon couleur) {
         this.ville1 = ville1;
         this.ville2 = ville2;
@@ -39,6 +41,8 @@ public class Route {
         this.couleur = couleur;
         nom = ville1.getNom() + " - " + ville2.getNom();
         proprietaire = null;
+
+
     }
 
     public Ville getVille1() {
@@ -69,7 +73,7 @@ public class Route {
         return nom;
     }
 
-    public CouleurWagon getCouleurChoisie(){
+    public CouleurWagon getCouleurChoisie() {
         return couleurChoisie;
     }
 
@@ -105,12 +109,15 @@ public class Route {
     //on demande de cliquer sur les cartes qu'il veut défausser, il peut toujours passer et ainsi on lui rends les éventuelles
     //cartes défaussés et on le laisse choisir autre chose.
     public boolean prendreRoute(Joueur joueur) {
-        if (joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur)) {
-            joueur.log("Vous avez choisi de construire la route :\n"+getNom());
+
+        if (joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur) && joueur_n_a_pas_deja_pris_sa_route_jumelle(joueur)) {
+            joueur.log("Vous avez choisi de construire la route :\n" + getNom());
             int nbCartesQuilFautEncorePoser = longueur;
             String choix = "initialisation";
             String consigne;
-            if(couleur != CouleurWagon.GRIS){couleurChoisie = couleur;}
+            if (couleur != CouleurWagon.GRIS) {
+                couleurChoisie = couleur;
+            }
             while (nbCartesQuilFautEncorePoser > 0) {
                 ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
                 if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
@@ -138,17 +145,17 @@ public class Route {
                         couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
                     }
                     joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
-                    nbCartesQuilFautEncorePoser --;
+                    nbCartesQuilFautEncorePoser--;
                 }
             }
-                if (choix.equals("")) {
-                    joueur.log("vous avez abandonné la construction\nde la route "+nom+"\nchoisissez une autre action");
-                    return false;
-                }
+            if (choix.equals("")) {
+                joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
+                return false;
+            }
             return true;
-    }
+        }
         return false;
-}
+    }
 
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
         if (joueur.getNbWagons() >= longueur) {
@@ -203,5 +210,33 @@ public class Route {
             default -> 0;
         };
     }
+
+    public boolean joueur_n_a_pas_deja_pris_sa_route_jumelle(Joueur joueur) {
+
+        if (nom.charAt(nom.length() - 2) == '1') { //si c'est une route de type xxxx-xxxx(1)
+            String nomchange = nom.replace('1', '2'); //on la transforme en xxxxx-xxxxx(2)
+            Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu()); // on créer une route qui va servir pour tester la précense de soeur dans la liste
+            if (routeChange.getProprietaire() != joueur){return true;}
+            return false;
+
+        } else if (nom.charAt(nom.length() - 2) == '2') {// si c'est une route de type xxxx - xxxx(2)
+            String nomchange = nom.replace('2', '1');
+            Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu());
+            if (routeChange.getProprietaire() != joueur){return true;}
+            return false;
+        }
+
+        return true; //la route n'appartient pas aux deux cas précédents duaphin
+    }
+
+    public static Route StringToRoute(String nomRoute, Jeu jeu) {
+        for (Route route : jeu.getRoutes()) {
+            if (route.getNom().equals(nomRoute)) {
+                return route;
+            }
+        }
+        return null;
+    }
+
 
 }

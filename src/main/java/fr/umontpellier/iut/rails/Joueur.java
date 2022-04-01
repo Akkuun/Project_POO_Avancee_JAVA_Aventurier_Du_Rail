@@ -70,7 +70,6 @@ public class Joueur {
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
         score = 12; // chaque gare non utilisée vaut 4 points
-
     }
 
     public String getNom() {
@@ -319,7 +318,7 @@ public class Joueur {
         }
 
         String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
-
+        log(choix);
         if (CouleurWagon.getAllCouleursString().contains(choix)) {
             choisirCarteWagon(choix);
 
@@ -491,4 +490,5 @@ public class Joueur {
         }
         return false;
     }
+
 }

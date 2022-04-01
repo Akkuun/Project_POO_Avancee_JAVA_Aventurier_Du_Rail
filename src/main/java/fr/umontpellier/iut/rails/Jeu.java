@@ -92,7 +92,6 @@ public class Jeu implements Runnable {
 
         for (Joueur joueur : joueurs) {
             joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
-
         }
 
         // création des villes et des routes
@@ -468,4 +467,5 @@ public class Jeu implements Runnable {
         }
         return ville;
     }
+
 }

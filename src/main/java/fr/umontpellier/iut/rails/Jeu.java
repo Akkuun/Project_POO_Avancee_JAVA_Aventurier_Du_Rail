@@ -146,19 +146,19 @@ public class Jeu implements Runnable {
 
 
          /********************* TOUR 0 || Distribution des cartes destination ************************************/
-//        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
-//        Collections.shuffle(destinationsLongues);
-//
-//        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
-//        for (Joueur joueur:joueurs) {
-//            joueurCourant=joueur;
-//            destinationsPossibles.clear();
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
-//            joueurCourant.choisirDestinations(destinationsPossibles,2);
-//        }
+        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
+        Collections.shuffle(destinationsLongues);
+
+        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
+        for (Joueur joueur:joueurs) {
+            joueurCourant=joueur;
+            destinationsPossibles.clear();
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
+            joueurCourant.choisirDestinations(destinationsPossibles,2);
+        }
         boolean dernierTour = false;
         boolean jeuFini = false;
         while (!jeuFini) {
@@ -170,7 +170,6 @@ public class Jeu implements Runnable {
                     if (joueurCourant.getNbWagons() <= 2) {
                         jeuFini = true;
                     }
-                    log("pupupuuuuuu");
                     joueurCourant.jouerTour();
                     if (joueurCourant.getNbWagons() <= 2) {
                         dernierTour = true;
@@ -421,17 +420,26 @@ public class Jeu implements Runnable {
         return resultat;
     }
 
-    public ArrayList<String> getNomRoutesSansProprietaires() {
-        ArrayList<String> resultat = new ArrayList<>();
+    public ArrayList<Route> getRoutesSansProprietaires() {
+        ArrayList<Route> resultat = new ArrayList<>();
         for (Route route : routes) {
             if (route.getProprietaire() == null) {
-                resultat.add(route.getNom());
+                resultat.add(route);
             }
         }
         return resultat;
     }
 
-    public ArrayList<String> routeToString(List<Route> routes) {
+    public ArrayList<String> getNomRoutesSansProprietaires() {
+        ArrayList<String> resultat = new ArrayList<>();
+        for (Route route : getRoutesSansProprietaires()) {
+            resultat.add(route.getNom());
+        }
+        return resultat;
+    }
+
+
+        public ArrayList<String> routeToString(List<Route> routes) {
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : routes) {
             resultat.add(route.getNom());

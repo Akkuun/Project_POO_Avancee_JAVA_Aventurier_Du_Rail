@@ -33,7 +33,6 @@ public class Route {
     private CouleurWagon couleurChoisie = null;
 
 
-
     public Route(Ville ville1, Ville ville2, int longueur, CouleurWagon couleur) {
         this.ville1 = ville1;
         this.ville2 = ville2;
@@ -110,52 +109,54 @@ public class Route {
     //cartes défaussés et on le laisse choisir autre chose.
     public boolean prendreRoute(Joueur joueur) {
 
-        if (joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur) && joueur_n_a_pas_deja_pris_sa_route_jumelle(joueur)) {
-            joueur.log("Vous avez choisi de construire la route :\n" + getNom());
-            int nbCartesQuilFautEncorePoser = longueur;
-            String choix = "initialisation";
-            String consigne;
-            if (couleur != CouleurWagon.GRIS) {
-                couleurChoisie = couleur;
-            }
-            while (nbCartesQuilFautEncorePoser > 0) {
-                ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
-                if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
-                    choixHorsBoutons.add("LOCOMOTIVE");// du moment qu'il en à une il peut jouer des loco
-                if (couleurChoisie == null) {//pour route grise
-                    consigne = "choisissez une carte";
-                    for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
-                        if (joueur.possede_n_fois_couleur_plus_loco(longueur, carte)) {
-                            choixHorsBoutons.add(carte.name());
-                        }
-                    }
-                } else { //pour les routes colorées ou les grises une fois qu'on à fait un choix
-                    consigne = "choisissez une Locomotive ou une carte " + couleurChoisie;
-                    if (joueur.getCartesWagon().contains(couleurChoisie)) {
-                        choixHorsBoutons.add(couleurChoisie.name());
-                    }
-                }
 
-                choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
+        joueur.log("Vous avez choisi de construire la route :\n" + getNom());
 
-                if (choix.equals("")) {
-                    break;
-                } else {
-                    if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
-                        couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
-                    }
-                    joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
-                    nbCartesQuilFautEncorePoser--;
-                }
-            }
-            if (choix.equals("")) {
-                joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
-                return false;
-            }
-            return true;
+        int nbCartesQuilFautEncorePoser = longueur;
+        String choix = "initialisation";
+        String consigne;
+        if (couleur != CouleurWagon.GRIS) {
+            couleurChoisie = couleur;
         }
-        return false;
+        while (nbCartesQuilFautEncorePoser > 0) {
+            ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
+            if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
+                choixHorsBoutons.add("LOCOMOTIVE");// du moment qu'il en à une il peut jouer des loco
+            if (couleurChoisie == null) {//pour route grise
+                consigne = "choisissez une carte";
+                for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
+                    if (joueur.possede_n_fois_couleur_plus_loco(longueur, carte)) {
+                        choixHorsBoutons.add(carte.name());
+                    }
+                }
+            } else { //pour les routes colorées ou les grises une fois qu'on à fait un choix
+                consigne = "choisissez une Locomotive ou une carte " + couleurChoisie;
+                if (joueur.getCartesWagon().contains(couleurChoisie)) {
+                    choixHorsBoutons.add(couleurChoisie.name());
+                }
+            }
+
+            choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
+
+            if (choix.equals("")) {
+                break;
+            } else {
+                if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
+                    couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
+                }
+                joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
+                nbCartesQuilFautEncorePoser--;
+            }
+        }
+        if (choix.equals("")) {
+            joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
+            return false;
+        }
+
+
+        return true;
     }
+
 
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
         if (joueur.getNbWagons() >= longueur) {
@@ -211,18 +212,23 @@ public class Route {
         };
     }
 
+
     public boolean joueur_n_a_pas_deja_pris_sa_route_jumelle(Joueur joueur) {
 
         if (nom.charAt(nom.length() - 2) == '1') { //si c'est une route de type xxxx-xxxx(1)
             String nomchange = nom.replace('1', '2'); //on la transforme en xxxxx-xxxxx(2)
             Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu()); // on créer une route qui va servir pour tester la précense de soeur dans la liste
-            if (routeChange.getProprietaire() != joueur){return true;}
+            if (routeChange.getProprietaire() != joueur) {
+                return true;
+            }
             return false;
 
         } else if (nom.charAt(nom.length() - 2) == '2') {// si c'est une route de type xxxx - xxxx(2)
             String nomchange = nom.replace('2', '1');
             Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu());
-            if (routeChange.getProprietaire() != joueur){return true;}
+            if (routeChange.getProprietaire() != joueur) {
+                return true;
+            }
             return false;
         }
 
@@ -238,5 +244,9 @@ public class Route {
         return null;
     }
 
+
+    public void setLongueur(int t) {
+        longueur = t;
+    }
 
 }

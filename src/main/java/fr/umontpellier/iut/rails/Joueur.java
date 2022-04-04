@@ -235,7 +235,7 @@ public class Joueur {
      * <p>
      * Tant que le nombre de destinations proposées est strictement supérieur à n,
      * le joueur peut choisir une des destinations qu'il retire de la liste des
-     * choix, ou passer (en renvoyant la chaîne de caractères vide).
+     * choix, ou passer (en renvoyant la chaîne de caractères vide)teste.
      * <p>
      * Les destinations qui ne sont pas écartées sont ajoutées à la liste des
      * destinations du joueur. Les destinations écartées sont renvoyées par la

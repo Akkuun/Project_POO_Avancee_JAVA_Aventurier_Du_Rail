@@ -32,6 +32,7 @@ public class Route {
     //permet de savoir pour les classes filles quelle couleur est choisie ! pour les non grises c'est forcément = à couleur
     private CouleurWagon couleurChoisie = null;
 
+
     public Route(Ville ville1, Ville ville2, int longueur, CouleurWagon couleur) {
         this.ville1 = ville1;
         this.ville2 = ville2;
@@ -39,6 +40,8 @@ public class Route {
         this.couleur = couleur;
         nom = ville1.getNom() + " - " + ville2.getNom();
         proprietaire = null;
+
+
     }
 
     public Ville getVille1() {
@@ -137,10 +140,12 @@ public class Route {
             } else {
                 if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
                     couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
+
                 }
                 joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
                 nbCartesQuilFautEncorePoser--;
             }
+
         }
         if (choix.equals("")) {
             joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
@@ -148,6 +153,7 @@ public class Route {
         }
         return true;
     }
+
 
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
         if (joueur.getNbWagons() >= longueur) {
@@ -202,6 +208,39 @@ public class Route {
             default -> 0;
         };
     }
+
+
+    public boolean joueur_n_a_pas_deja_pris_sa_route_jumelle(Joueur joueur) {
+
+        if (nom.charAt(nom.length() - 2) == '1') { //si c'est une route de type xxxx-xxxx(1)
+            String nomchange = nom.replace('1', '2'); //on la transforme en xxxxx-xxxxx(2)
+            Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu()); // on créer une route qui va servir pour tester la précense de soeur dans la liste
+            if (routeChange.getProprietaire() != joueur) {
+                return true;
+            }
+            return false;
+
+        } else if (nom.charAt(nom.length() - 2) == '2') {// si c'est une route de type xxxx - xxxx(2)
+            String nomchange = nom.replace('2', '1');
+            Route routeChange = Route.StringToRoute(nomchange, joueur.getJeu());
+            if (routeChange.getProprietaire() != joueur) {
+                return true;
+            }
+            return false;
+        }
+
+        return true; //la route n'appartient pas aux deux cas précédents duaphin
+    }
+
+    public static Route StringToRoute(String nomRoute, Jeu jeu) {
+        for (Route route : jeu.getRoutes()) {
+            if (route.getNom().equals(nomRoute)) {
+                return route;
+            }
+        }
+        return null;
+    }
+
 
     public void setLongueur(int t) {
         longueur = t;

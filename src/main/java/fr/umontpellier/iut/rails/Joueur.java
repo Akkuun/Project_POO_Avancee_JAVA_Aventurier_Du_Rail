@@ -74,7 +74,6 @@ public class Joueur {
         cartesWagonPosees = new ArrayList<>();
         destinations = new ArrayList<>();
         score = 12; // chaque gare non utilisée vaut 4 points
-
     }
 
     public String getNom() {
@@ -323,7 +322,7 @@ public class Joueur {
         }
 
         String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
-
+        log(choix);
         if (CouleurWagon.getAllCouleursString().contains(choix)) {
             choisirCarteWagon(choix);
 
@@ -496,10 +495,11 @@ public class Joueur {
         return false;
     }
 
+
     public ArrayList<String> nomRoutesPrenables(){
         ArrayList<String> resultat = new ArrayList<>();
         for (Route route : jeu.getRoutesSansProprietaires()) {
-            if(route.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(this)){
+            if(route.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(this)&& route.joueur_n_a_pas_deja_pris_sa_route_jumelle(this)){
                 resultat.add(route.getNom());
             }
         }
@@ -511,8 +511,5 @@ public class Joueur {
         return resultat;
     }
 
-    public void finDeJeu(){
-        choisir("fin du jeux", new ArrayList<>(List.of("fin de jeu")), new ArrayList<>(List.of("fin de jeu")), true);
-    }
 
 }

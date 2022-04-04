@@ -18,7 +18,7 @@ public class JoueurTest {
 
     @BeforeEach
     void init() {
-        jeu = new IOJeu(new String[] { "Guybrush", "Largo", "LeChuck", "Elaine" });
+        jeu = new IOJeu(new String[]{"Guybrush", "Largo", "LeChuck", "Elaine"});
         List<Joueur> joueurs = jeu.getJoueurs();
         joueur1 = joueurs.get(0);
         joueur2 = joueurs.get(1);
@@ -78,9 +78,9 @@ public class JoueurTest {
         // puis le jeu devrait remettre une carte visible BLEU
 
         assertTrue(TestUtils.contientExactement(
-            joueur1.getCartesWagon(),
-            CouleurWagon.ROUGE,
-            CouleurWagon.LOCOMOTIVE));
+                joueur1.getCartesWagon(),
+                CouleurWagon.ROUGE,
+                CouleurWagon.LOCOMOTIVE));
         assertTrue(TestUtils.contientExactement(
                 cartesWagonVisibles,
                 CouleurWagon.BLEU,
@@ -91,22 +91,21 @@ public class JoueurTest {
         assertEquals(nbCartesWagon - 2, pileCartesWagon.size());
     }
 
-    /** pour qu'il marche :
-    mettre nbWagon à 3 dans le constructeur joueur
-    commenter le "tour 0" où les joueurs choisissent les destinations **/
-    @Disabled
+
+
+
+    /** nécessite la méthode setNbWagon **/
     @Test
-    public void test_fin_de_partie(){
+    public void test_fin_de_partie() {
         joueur2.setNbWagon(3);
         joueur2.getCartesWagon().clear();
-        joueur2.getCartesWagon().addAll(new ArrayList<CouleurWagon>(List.of(CouleurWagon.BLEU,CouleurWagon.BLEU)));
-        jeu.setInput("");//J1 passe son tour
+        joueur2.getCartesWagon().addAll(new ArrayList<CouleurWagon>(List.of(CouleurWagon.BLEU, CouleurWagon.BLEU)));
+        jeu.setInput("", "", "", "", "");//les joueurs prennent toutes les destinations pui j1 passe son tour
         jeu.addInputTest("Bruxelles - Frankfurt", "BLEU", "BLEU");//J2 prends une route et passe donc à 1wagon
-        jeu.addInputTest("","","");//J3,J4 et J1 passe son tour
-        jeu.addInputTest("GRIS","GRIS");//pour le tout dernier jouerTour(J2 pioche deux cartes)
+        jeu.addInputTest("", "", "");//J3,J4 et J1 passe son tour
+        jeu.addInputTest("GRIS", "GRIS");//pour le tout dernier jouerTour(J2 pioche deux cartes)
         jeu.run();
         assertEquals(2, joueur2.getCartesWagon().size());//on verifie qu'il ait bien pu aller jusqu'au bout de son dernier tour
-
     }
 
     /**le joueurs doit réussir à placer ses trois gares, se retrouvant donc sans gare et à 0 points
@@ -144,3 +143,7 @@ public class JoueurTest {
 
 
 }
+
+
+
+

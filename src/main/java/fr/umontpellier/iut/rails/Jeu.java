@@ -92,7 +92,6 @@ public class Jeu implements Runnable {
 
         for (Joueur joueur : joueurs) {
             joueur.addCarteWagon(piocher_n_Cartes_CarteWagon(4));
-
         }
 
         // création des villes et des routes
@@ -147,19 +146,19 @@ public class Jeu implements Runnable {
 
 
          /********************* TOUR 0 || Distribution des cartes destination ************************************/
-//        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
-//        Collections.shuffle(destinationsLongues);
-//
-//        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
-//        for (Joueur joueur:joueurs) {
-//            joueurCourant=joueur;
-//            destinationsPossibles.clear();
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(piocherDestination());
-//            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
-//            joueurCourant.choisirDestinations(destinationsPossibles,2);
-//        }
+        ArrayList<Destination> destinationsLongues = Destination.makeDestinationsLonguesEurope();
+        Collections.shuffle(destinationsLongues);
+
+        ArrayList<Destination> destinationsPossibles= new ArrayList<>();
+        for (Joueur joueur:joueurs) {
+            joueurCourant=joueur;
+            destinationsPossibles.clear();
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(piocherDestination());
+            destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
+            joueurCourant.choisirDestinations(destinationsPossibles,2);
+        }
         boolean dernierTour = false;
         boolean jeuFini = false;
         while (!jeuFini) {
@@ -476,4 +475,5 @@ public class Jeu implements Runnable {
         }
         return ville;
     }
+
 }

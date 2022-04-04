@@ -109,5 +109,38 @@ public class JoueurTest {
 
     }
 
+    /**le joueurs doit réussir à placer ses trois gares, se retrouvant donc sans gare et à 0 points
+     * Nécessite la méthode getVilleFromChoix() dans Jeu qui trouve la ville avec son nom, sinon commentez les tests qui l'utilisent*/
+    @Test
+    public void construire_trois_gares(){
+        joueur2.getCartesWagon().addAll(new ArrayList<>(List.of(CouleurWagon.JAUNE, CouleurWagon.BLEU, CouleurWagon.BLEU, CouleurWagon.BLEU, CouleurWagon.LOCOMOTIVE, CouleurWagon.ROUGE, CouleurWagon.ROUGE)));
+        jeu.setInput("Amsterdam", "BLEU", "Barcelona", "BLEU", "BLEU", "Marseille", "LOCOMOTIVE", "ROUGE", "ROUGE");
+        joueur2.jouerTour();
+        assertEquals(joueur2, jeu.getVilleFromChoix("Amsterdam").getProprietaire());
+        joueur2.jouerTour();
+        assertEquals(joueur2, jeu.getVilleFromChoix("Barcelona").getProprietaire());
+        joueur2.jouerTour();
+        assertEquals(joueur2, jeu.getVilleFromChoix("Marseille").getProprietaire());
+        assertTrue(joueur2.getCartesWagon().contains(CouleurWagon.JAUNE)&&joueur2.getCartesWagon().size()==1);
+        assertEquals(0, joueur2.getNbGares());
+        assertEquals(0, joueur2.getScore());
+    }
+
+    @Test
+    public void construire_gare_impossible_care_deja_prise(){
+        jeu.getCartesWagonVisibles().clear();
+        jeu.getCartesWagonVisibles().addAll(List.of(CouleurWagon.JAUNE, CouleurWagon.JAUNE, CouleurWagon.ROUGE, CouleurWagon.ROSE, CouleurWagon.LOCOMOTIVE));
+        joueur2.getCartesWagon().addAll(new ArrayList<>(List.of(CouleurWagon.JAUNE)));
+        joueur3.getCartesWagon().addAll(new ArrayList<>(List.of(CouleurWagon.JAUNE)));
+        jeu.setInput("Amsterdam", "JAUNE", "Amsterdam", "JAUNE", "JAUNE");
+        joueur2.jouerTour();//le j2 prends Amsterdam
+        joueur3.jouerTour();//le j1 ne peut prendre Amsterdam et pioche donc deux cartes jaunes
+        assertEquals(joueur2, jeu.getVilleFromChoix("Amsterdam").getProprietaire());
+        assertEquals(2, joueur2.getNbGares());
+        assertEquals(3, joueur3.getNbGares());
+        assertTrue(joueur2.getCartesWagon().isEmpty());
+        assertEquals(new ArrayList<CouleurWagon>(List.of(CouleurWagon.JAUNE, CouleurWagon.JAUNE, CouleurWagon.JAUNE)), joueur3.getCartesWagon());
+    }
+
 
 }

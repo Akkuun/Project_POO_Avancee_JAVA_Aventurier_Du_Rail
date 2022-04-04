@@ -503,7 +503,16 @@ public class Joueur {
                 resultat.add(route.getNom());
             }
         }
+
+
+
+
+
         return resultat;
+    }
+
+    public void finDeJeu(){
+        choisir("fin du jeux", new ArrayList<>(List.of("fin de jeu")), new ArrayList<>(List.of("fin de jeu")), true);
     }
 
 }

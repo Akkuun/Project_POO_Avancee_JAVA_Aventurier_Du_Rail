@@ -69,7 +69,7 @@ public class Route {
         return nom;
     }
 
-    public CouleurWagon getCouleurChoisie(){
+    public CouleurWagon getCouleurChoisie() {
         return couleurChoisie;
     }
 
@@ -105,47 +105,49 @@ public class Route {
     //on demande de cliquer sur les cartes qu'il veut défausser, il peut toujours passer et ainsi on lui rends les éventuelles
     //cartes défaussés et on le laisse choisir autre chose.
     public boolean prendreRoute(Joueur joueur) {
-            joueur.log("Vous avez choisi de construire la route :\n"+getNom());
-            int nbCartesQuilFautEncorePoser = longueur;
-            String choix = "initialisation";
-            String consigne;
-            if(couleur != CouleurWagon.GRIS){couleurChoisie = couleur;}
-            while (nbCartesQuilFautEncorePoser > 0) {
-                ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
-                if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
-                    choixHorsBoutons.add("LOCOMOTIVE");// du moment qu'il en à une il peut jouer des loco
-                if (couleurChoisie == null) {//pour route grise
-                    consigne = "choisissez une carte";
-                    for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
-                        if (joueur.possede_n_fois_couleur_plus_loco(longueur, carte)) {
-                            choixHorsBoutons.add(carte.name());
-                        }
-                    }
-                } else { //pour les routes colorées ou les grises une fois qu'on à fait un choix
-                    consigne = "choisissez une Locomotive ou une carte " + couleurChoisie;
-                    if (joueur.getCartesWagon().contains(couleurChoisie)) {
-                        choixHorsBoutons.add(couleurChoisie.name());
+        joueur.log("Vous avez choisi de construire la route :\n" + getNom());
+        int nbCartesQuilFautEncorePoser = longueur;
+        String choix = "initialisation";
+        String consigne;
+        if (couleur != CouleurWagon.GRIS) {
+            couleurChoisie = couleur;
+        }
+        while (nbCartesQuilFautEncorePoser > 0) {
+            ArrayList<String> choixHorsBoutons = new ArrayList<>();//remet les choix à zéro à chaque tour
+            if (joueur.getCartesWagon().contains(CouleurWagon.LOCOMOTIVE))
+                choixHorsBoutons.add("LOCOMOTIVE");// du moment qu'il en à une il peut jouer des loco
+            if (couleurChoisie == null) {//pour route grise
+                consigne = "choisissez une carte";
+                for (CouleurWagon carte : CouleurWagon.getCouleursSimples()) {
+                    if (joueur.possede_n_fois_couleur_plus_loco(longueur, carte)) {
+                        choixHorsBoutons.add(carte.name());
                     }
                 }
-
-                choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
-
-                if (choix.equals("")) {
-                    break;
-                } else {
-                    if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
-                        couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
-                    }
-                    joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
-                    nbCartesQuilFautEncorePoser --;
+            } else { //pour les routes colorées ou les grises une fois qu'on à fait un choix
+                consigne = "choisissez une Locomotive ou une carte " + couleurChoisie;
+                if (joueur.getCartesWagon().contains(couleurChoisie)) {
+                    choixHorsBoutons.add(couleurChoisie.name());
                 }
             }
-                if (choix.equals("")) {
-                    joueur.log("vous avez abandonné la construction\nde la route "+nom+"\nchoisissez une autre action");
-                    return false;
+
+            choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
+
+            if (choix.equals("")) {
+                break;
+            } else {
+                if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
+                    couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
                 }
-            return true;
-}
+                joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
+                nbCartesQuilFautEncorePoser--;
+            }
+        }
+        if (choix.equals("")) {
+            joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
+            return false;
+        }
+        return true;
+    }
 
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
         if (joueur.getNbWagons() >= longueur) {
@@ -201,7 +203,7 @@ public class Route {
         };
     }
 
-    public void setLongueur(int t){
+    public void setLongueur(int t) {
         longueur = t;
     }
 

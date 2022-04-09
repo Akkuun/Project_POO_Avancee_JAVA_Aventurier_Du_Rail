@@ -31,6 +31,7 @@ public class Route {
     private String nom;
     //permet de savoir pour les classes filles quelle couleur est choisie ! pour les non grises c'est forcément = à couleur
     private CouleurWagon couleurChoisie = null;
+    private boolean payeToutEnLoco = true;
 
 
     public Route(Ville ville1, Ville ville2, int longueur, CouleurWagon couleur) {
@@ -133,23 +134,18 @@ public class Route {
                 }
             }
 
-            choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), true);
+            choix = joueur.choisir(consigne, choixHorsBoutons, new ArrayList<>(), false);
 
-            if (choix.equals("")) {
-                break;
-            } else {
-                if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
-                    couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
-
-                }
-                joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
-                nbCartesQuilFautEncorePoser--;
+            if (couleurChoisie == null && !choix.equals("LOCOMOTIVE")) {
+                couleurChoisie = CouleurWagon.stringToCouleurWagon(choix);
             }
+            if (!choix.equals("LOCOMOTIVE")) {
+                payeToutEnLoco = false;
+            }
+            joueur.utiliserCarterWagon(CouleurWagon.stringToCouleurWagon(choix));
+            nbCartesQuilFautEncorePoser--;
 
-        }
-        if (choix.equals("")) {
-            joueur.log("vous avez abandonné la construction\nde la route " + nom + "\nchoisissez une autre action");
-            return false;
+
         }
         return true;
     }
@@ -178,8 +174,6 @@ public class Route {
                 }
                 if (nbCartesCouleur >= longueur) {
                     return true;
-                } else {
-                    joueur.log("il vous manques des cartes pour\n construire cette route");
                 }
             }
         }
@@ -244,6 +238,10 @@ public class Route {
 
     public void setLongueur(int t) {
         longueur = t;
+    }
+
+    public boolean a_ete_paye_tout_en_loco() {
+        return payeToutEnLoco;
     }
 
 }

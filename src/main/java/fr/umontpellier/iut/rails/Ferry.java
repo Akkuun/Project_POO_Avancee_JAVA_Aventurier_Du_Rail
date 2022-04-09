@@ -22,9 +22,6 @@ public class Ferry extends Route {
     @Override
     public boolean joueur_a_assez_de_cartes_et_de_wagons_pour_construire(Joueur joueur) {
         int nbLocomotivesJoueur = Collections.frequency(joueur.getCartesWagon(), CouleurWagon.LOCOMOTIVE);
-        if (nbLocomotivesJoueur < nbLocomotives) {
-            joueur.log("vous n'avez pas assez de cartes Locomotives\nVous ne pouvez prendre ce ferry !");
-        }
         return super.joueur_a_assez_de_cartes_et_de_wagons_pour_construire(joueur) && nbLocomotivesJoueur >= nbLocomotives;
     }
 

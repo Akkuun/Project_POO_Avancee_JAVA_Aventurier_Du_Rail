@@ -28,8 +28,8 @@ class JeuTest {
             toutes_pareilles = première_carte == cartes.get(i);
         }
         assertFalse(toutes_pareilles);
-
     }
+
 
     @Test
     void test_Fonction_Liste_Melanger() {
@@ -65,7 +65,7 @@ class JeuTest {
     }
 
     @Test
-    public void carte_pioché_est_la_dernière_carte(){
+    public void carte_pioché_est_la_dernière_carte_de_la_pile(){
         Jeu jeu = new Jeu(new String[]{"1", "2", "3"});
         CouleurWagon carte_haut_de_pile = jeu.getPileCartesWagon().get(0);
         CouleurWagon carte_pioche = jeu.piocherCarteWagon();

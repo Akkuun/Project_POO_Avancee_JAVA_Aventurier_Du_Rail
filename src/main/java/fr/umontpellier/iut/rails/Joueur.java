@@ -322,14 +322,15 @@ public class Joueur {
         }
 
         String choix = choisir("cliquez sur une route ou une ville pour la construire. Cliquez sur la pioche, une carte wagon ou destination pour piocher", choixHorsBoutons, choixBoutons, true);
-        log(choix);
         if (CouleurWagon.getAllCouleursString().contains(choix)) {
+            log("pioche...");
             choisirCarteWagon(choix);
 
 
         } else if (jeu.getNomRoutesSansProprietaires().contains(choix)) {
             construireRoute(choix);
         } else if (choix.equals("destinations")) {
+            log("vous avez choisi de tirer des cartes destinations !");
             ArrayList<Destination> destinationsPossibles = new ArrayList<>();
             destinationsPossibles.add(jeu.piocherDestination());
             destinationsPossibles.add(jeu.piocherDestination());
@@ -337,6 +338,7 @@ public class Joueur {
 
             jeu.remettreCarteDestinationDansPile(choisirDestinations(destinationsPossibles, 1));
         } else if (jeu.getNomVillesSansProprietaires().contains(choix)) {
+            log("vous avez choisi de construire une gare sur\n"+choix);
             couleurChoisi = null;
             int nbCarteQuiResteADefausser = 4 - nbGares;
             String choix_carte = "init";
@@ -362,7 +364,7 @@ public class Joueur {
 
                 }
                 //***************bloc premier choix**********************************/
-                choix_carte = choisir("choisir " + String.valueOf(nbCarteQuiResteADefausser) + " carte à defausser", carteAcceptable, new ArrayList<>(), true); //on lui fait choisir sa carte
+                choix_carte = choisir("choisir " + String.valueOf(nbCarteQuiResteADefausser) + " carte à defausser", carteAcceptable, new ArrayList<>(), false); //on lui fait choisir sa carte
                 if (choix_carte.equals("")) break;
                 else {
                     if (couleurChoisi == null && !choix_carte.equals(CouleurWagon.LOCOMOTIVE.name())) {

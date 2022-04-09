@@ -19,7 +19,7 @@ public class Tunnel extends Route {
 
             int nbCarteAPiocher = joueur.getJeu().getPileCartesWagon().size()+joueur.getJeu().getDefausseCartesWagon().size();
             for (CouleurWagon carte : joueur.getJeu().piocher_n_Cartes_CarteWagon(Math.min(nbCarteAPiocher, 3))) {//après avoir utilisé ses cartes normalement, on pioche trois cartes
-                if (carte == getCouleurChoisie() || carte == CouleurWagon.LOCOMOTIVE) {
+                if (!a_ete_paye_tout_en_loco() && carte == getCouleurChoisie() || carte == CouleurWagon.LOCOMOTIVE) {
                     nbCartesSupplementaire++;
                 }
                 joueur.getJeu().defausserCarteWagon(carte);

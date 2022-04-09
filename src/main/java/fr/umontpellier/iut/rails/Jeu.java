@@ -159,25 +159,23 @@ public class Jeu implements Runnable {
             destinationsPossibles.add(destinationsLongues.remove(0)); //ajoute aussi une destination longue et on supprime une carte destination longue de la pioche
             joueurCourant.choisirDestinations(destinationsPossibles,2);
         }
-        boolean dernierTour = false;
         boolean jeuFini = false;
         while (!jeuFini) {
             for (Joueur joueur : joueurs) {
                 if (!jeuFini) {
-                    log.clear();
-                    if (dernierTour) log("* Dernier Tour ! *");
                     joueurCourant = joueur;
                     if (joueurCourant.getNbWagons() <= 2) {
                         jeuFini = true;
                     }
+                    log("<strong>"+joueurCourant.getNom()+"</strong>");
                     joueurCourant.jouerTour();
                     if (joueurCourant.getNbWagons() <= 2) {
-                        dernierTour = true;
                     }
                 }
             }
             log.clear();
-            log("fin du jeu !");
+            log("<h2>fin du jeu !</h2>");
+            prompt("Fin de partie", new ArrayList<>(), false);
         }
     }
 

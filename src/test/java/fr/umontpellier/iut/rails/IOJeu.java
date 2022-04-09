@@ -34,6 +34,7 @@ public class IOJeu extends Jeu {
         instructions.clear();
         Collections.addAll(instructions, args);
     }
+
     public void addInputTest(String... args) {
         Collections.addAll(instructions, args);
     }

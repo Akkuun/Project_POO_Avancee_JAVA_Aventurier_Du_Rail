@@ -160,9 +160,11 @@ public class Jeu implements Runnable {
             joueurCourant.choisirDestinations(destinationsPossibles,2);
         }
         boolean jeuFini = false;
+        boolean dernierTour = false;
         while (!jeuFini) {
             for (Joueur joueur : joueurs) {
                 if (!jeuFini) {
+                    if (dernierTour){log("dernier tour !");}
                     joueurCourant = joueur;
                     if (joueurCourant.getNbWagons() <= 2) {
                         jeuFini = true;
@@ -170,13 +172,14 @@ public class Jeu implements Runnable {
                     log("<strong>"+joueurCourant.getNom()+"</strong>");
                     joueurCourant.jouerTour();
                     if (joueurCourant.getNbWagons() <= 2) {
+                        dernierTour = true;
                     }
                 }
             }
-            log.clear();
-            log("<h2>fin du jeu !</h2>");
-            prompt("Fin de partie", new ArrayList<>(), false);
         }
+        log.clear();
+        log("<h2>fin du jeu !</h2>");
+        prompt("Fin de partie", new ArrayList<>(), false);
     }
 
     /**
